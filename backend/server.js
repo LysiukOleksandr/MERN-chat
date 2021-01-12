@@ -30,8 +30,14 @@ io.on('connection', (socket)=>{
 
    socket.on('join', (data)=>{
        socket.join(data)
-       console.log('User Joined Room')
+       console.log('User Joined Room' + data)
    })
+
+    socket.on('send_message',(data)=>{
+        console.log(data.content.message)
+        socket.to(data.room).emit('receive_message', data.content)
+    })
+
 
    socket.on('disconnect', ()=>{
        console.log('User disconnected')
