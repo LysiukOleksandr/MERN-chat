@@ -1,13 +1,12 @@
 import React from 'react';
 
-const Message = () => {
+const Message = ({author, message, userName}) => {
     return (
-        <div className="dialog__item">
-            <h4 className="dialog__item-name">Phillip Torff</h4>
+        <div className={`dialog__item ${userName === author ? 'dialog__item-my': ''}`}>
+            <h4 className="dialog__item-name">{author}</h4>
             <div className="dialog__item-message">
                 <p className="dialog__item-message-text">
-                    I have send the files back to ya it only took me about 60 mins this time was with
-                    testing too.
+                    {message}
                 </p>
                 <div className="dialog__item-message-flex">
                     <div className="dialog__item-message-status">
