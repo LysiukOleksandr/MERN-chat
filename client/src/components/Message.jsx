@@ -3,8 +3,7 @@ import React, {useEffect, useRef} from 'react';
 const Message = ({author, authorId, userData, message, status, getOffsetTop, messageId}) => {
     const messageRef = useRef(null)
     useEffect(() => {
-        // тут я проверяю следующее : Если айди юзера,не совпадает с айдишкой автора сообщения, и если статус равен "отправлено", то я передаю эту херню в Dialog,
-        // и там сетаю в массив, в котором лежит айди месседжа и его offsetTop, по которому при скролле я буду искать совпадения.
+
         if (authorId !== userData.id && status === 'sent') {
             const offsetTop = messageRef.current.offsetTop
             const obj = {
@@ -12,11 +11,9 @@ const Message = ({author, authorId, userData, message, status, getOffsetTop, mes
                 offsetTop
             }
             getOffsetTop(obj)
-            console.log('about', authorId, userData.id) // а вот эта хуйня, если открыть две окна с локалкой, и написать месседж, потом перейти в другую локалку,
-            // и чекнуть консоль, то ахуеешь от кол-ва консолей, тупо рандомайзер бл. Я ХЗ ЧЕ ЗА ХЕРНЯ БЛ, СООБЩЕНИЙ БЛЯ 2, КОНСОЛЕЙ три миллионов бл.
-            // Надеюсь красочно описал тебе ситуацию, надеюсь ты мне поможешь, май хироу))))) ^_^
+
         }
-    }, [])
+    }, [authorId, getOffsetTop, messageId, status, userData.id])
 
     return (
         <div ref={messageRef} className={`dialog__item ${authorId === userData.id ? 'dialog__item-my' : ''}`}>

@@ -1,25 +1,22 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect, useState, useCallback} from 'react';
 import {Message} from "./index";
 
 const Dialog = ({messages, userData}) => {
- // тут мессседжи храню
     const [messagesOffset, setMessagesOffset] = useState([])
 
-// коллбек который в месседжи кидаю
-    const getOffsetTop = (obj) => {
+    const getOffsetTop = useCallback((obj) => {
         setMessagesOffset([...messagesOffset, obj])
-    }
-        // функция на скролл, кст обрати внимание на консоль, ебать там зацикленность херачит, я просто донт андестенд (
-    const onScrollContent = (e) => {
+    }, [messagesOffset])
+    const onScrollContent = useCallback((e) => {
         let scrollTop = e.target.scrollTop + 550
-        if(scrollTop >= 930) {
-             console.log(messagesOffset.find(i => i.offsetTop >= scrollTop) || false)
+        if (scrollTop >= 930) {
+            console.log(messagesOffset.find(i => i.offsetTop >= scrollTop) || false)
             // console.log(scrollTop, ' scroll')
         }
-    }
+    }, [messagesOffset])
     useEffect(() => {
         document.querySelector('.dialog__content').addEventListener('scroll', onScrollContent)
-    },[])
+    }, [onScrollContent])
 
 
     return (
