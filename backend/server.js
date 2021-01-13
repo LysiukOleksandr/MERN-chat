@@ -32,14 +32,14 @@ io.on('connection', (socket) => {
     console.log(socket.id)
     socket.on('join', (data) => {
         socket.join(data.room)
-        users.push({id: socket.id, value: data.user})
-        console.log(users)
+        const user = {id: socket.id, value: data.user}
+        users.push(user)
         io.sockets.emit('set_users', users)
+        io.sockets.to(socket.id).emit('set_user', user)
     })
 
     socket.on('send_message', (data) => {
         socket.to(data.room).emit('receive_message', data.content)
-
     })
 
 
