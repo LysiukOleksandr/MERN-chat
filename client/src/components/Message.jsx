@@ -1,8 +1,9 @@
 import React from 'react';
 
-const Message = ({author, message, userName}) => {
+const Message = ({author, authorId, userData, message}) => {
+    console.log(userData.id)
     return (
-        <div className={`dialog__item ${userName === author ? 'dialog__item-my': ''}`}>
+        <div className={`dialog__item ${authorId === userData.id ? 'dialog__item-my' : ''}`}>
             <h4 className="dialog__item-name">{author}</h4>
             <div className="dialog__item-message">
                 <p className="dialog__item-message-text">
@@ -10,8 +11,10 @@ const Message = ({author, message, userName}) => {
                 </p>
                 <div className="dialog__item-message-flex">
                     <div className="dialog__item-message-status">
-                        <svg version="1.1" width='15' fill='#6588de' height='15' id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlnsXlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
-                             viewBox="0 0 512 512" style={{enableBackground:"new 0 0 512 512"}} xmlSpace="preserve">
+                        <svg version="1.1" width='15' fill='#6588de' height='15' id="Layer_1"
+                             xmlns="http://www.w3.org/2000/svg" xmlnsXlink="http://www.w3.org/1999/xlink" x="0px"
+                             y="0px"
+                             viewBox="0 0 512 512" style={{enableBackground: "new 0 0 512 512"}} xmlSpace="preserve">
                             <g>
                                 <g>
                                     <path d="M504.502,75.496c-9.997-9.998-26.205-9.998-36.204,0L161.594,382.203L43.702,264.311c-9.997-9.998-26.205-9.997-36.204,0
@@ -59,8 +62,6 @@ const Message = ({author, message, userName}) => {
 };
 
 export default Message;
-
-
 
 
 // <div className="dialog__item dialog__item-my">

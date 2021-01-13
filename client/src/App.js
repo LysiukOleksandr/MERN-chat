@@ -10,6 +10,7 @@ function App() {
 
     const [loggedIn, setLoggedIn] = useState(false)
     const [userName, setUserName] = useState('')
+    const [userData, setUserData] = useState(null)
     const [message, setMessage] = useState('')
     const [messageList, setMessageList] = useState([])
     const [activeUsers, setActiveUsers] = useState([])
@@ -28,6 +29,7 @@ function App() {
             room: 'room',
             content: {
                 author: userName,
+                authorId: userData.id,
                 message
             }
         }
@@ -59,6 +61,12 @@ function App() {
        })
     },[])
 
+    useEffect(()=>{
+        socket.on('set_user', (data)=>{
+           setUserData(data)
+        })
+    },[])
+
 
 
     return (
@@ -69,7 +77,7 @@ function App() {
                 <div>
                     <Aside userName={userName} activeUsers={activeUsers}/>
                     <main className="main">
-                        <Dialog messages={messageList} userName={userName}/>
+                        <Dialog messages={messageList} userData={userData} />
                         <Sender onChangeMessage={onChangeMessage} sendMessage={sendMessage} message={message}/>
                     </main>
                 </div>

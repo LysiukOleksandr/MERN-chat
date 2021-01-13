@@ -1,7 +1,7 @@
 import React from 'react';
 import {Message} from "./index";
 
-const Dialog = ({messages, userName}) => {
+const Dialog = ({messages, userData}) => {
     return (
         <section className="dialog">
             <div className="container">
@@ -9,7 +9,7 @@ const Dialog = ({messages, userName}) => {
                     <h1 className="dialog__title">Chat</h1>
                     <div className="dialog__content">
                         {messages && messages.reverse().map((item, index) => (
-                            <Message {...item} key={index} userName={userName}/>
+                            <Message {...item} key={index} userData={userData}/>
                         ))}
                     </div>
                 </div>
