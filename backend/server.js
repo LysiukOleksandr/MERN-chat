@@ -5,10 +5,10 @@ const app = express()
 
 
 let allowCrossDomain = function (req, res, next) {
-   res.header('Access-Control-Allow-Origin', "*");
-   res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE');
-   res.header('Access-Control-Allow-Headers', 'Content-Type');
-   next();
+    res.header('Access-Control-Allow-Origin', "*");
+    res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE');
+    res.header('Access-Control-Allow-Headers', 'Content-Type');
+    next();
 }
 
 app.use(cors())
@@ -16,30 +16,37 @@ app.use(allowCrossDomain)
 app.use(express.json())
 
 
-const server = app.listen('8000', () =>{
-   console.log('Server running on port 8000')
+const server = app.listen('8000', () => {
+    console.log('Server running on port 8000')
 })
-io = socket(server,{
+io = socket(server, {
     cors: {
         origin: "http://localhost:3000",
         credentials: true
     }
 })
-io.on('connection', (socket)=>{
+
+let users = []
+
+io.on('connection', (socket) => {
     console.log(socket.id)
+    socket.on('join', (data) => {
+        socket.join(data.room)
+        users.push({id: socket.id, value: data.user})
+        console.log(users)
+        io.sockets.emit('set_users', users)
+    })
 
-   socket.on('join', (data)=>{
-       socket.join(data)
-       console.log('User Joined Room' + data)
-   })
-
-    socket.on('send_message',(data)=>{
-        console.log(data.content.message)
+    socket.on('send_message', (data) => {
         socket.to(data.room).emit('receive_message', data.content)
+
     })
 
 
-   socket.on('disconnect', ()=>{
-       console.log('User disconnected')
-  })
+    socket.on('disconnect', () => {
+      users = users.filter(i => i.id !== socket.id)
+        io.sockets.emit('set_users', users)
+        console.log('User disconnected')
+
+    })
 })
