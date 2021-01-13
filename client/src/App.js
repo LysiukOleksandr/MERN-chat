@@ -30,13 +30,15 @@ function App() {
             content: {
                 author: userName,
                 authorId: userData.id,
+                messageId: Math.floor(Math.random() * 100000000),
+                status: 'sent',
                 message
             }
         }
 
         await socket.emit("send_message", messageContent)
         setMessageList([...messageList, messageContent.content])
-        setMessage("")
+        setMessage('')
     }
 
 
@@ -53,21 +55,19 @@ function App() {
         socket.on('receive_message', (data) => {
             setMessageList([...messageList, data])
         })
-    })
+    }, [messageList])
 
-    useEffect(()=>{
-       socket.on('set_users',(data)=>{
-           setActiveUsers(data)
-       })
-    },[])
-
-    useEffect(()=>{
-        socket.on('set_user', (data)=>{
-           setUserData(data)
+    useEffect(() => {
+        socket.on('set_users', (data) => {
+            setActiveUsers(data)
         })
-    },[])
+    }, [])
 
-
+    useEffect(() => {
+        socket.on('set_user', (data) => {
+            setUserData(data)
+        })
+    }, [])
 
     return (
         <div className='wrapper'>
@@ -77,7 +77,7 @@ function App() {
                 <div>
                     <Aside userName={userName} activeUsers={activeUsers}/>
                     <main className="main">
-                        <Dialog messages={messageList} userData={userData} />
+                        <Dialog messages={messageList} userData={userData}/>
                         <Sender onChangeMessage={onChangeMessage} sendMessage={sendMessage} message={message}/>
                     </main>
                 </div>

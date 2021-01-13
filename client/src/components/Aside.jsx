@@ -9,8 +9,7 @@ const Aside = ({userName, activeUsers}) => {
                 <div className="aside__bottom-active">
                     <h3 className="aside__bottom-title">Active users</h3>
                     <ul className="aside__bottom-list">
-                        {console.log(activeUsers)}
-                        {activeUsers && activeUsers.length !== 0 && activeUsers.map((item, index)=>(
+                        {activeUsers && activeUsers.length !== 0 && activeUsers.map((item)=>(
                             <UserItem key={item.id} item={item} />
                         ))}
                     </ul>

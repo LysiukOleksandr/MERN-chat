@@ -1,6 +1,8 @@
 import React from 'react';
 
 const Sender = ({onChangeMessage, sendMessage, message}) => {
+    console.log(message)
+
     return (
         <section className='sender'>
             <div className="container">
