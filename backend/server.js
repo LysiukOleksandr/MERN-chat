@@ -1,6 +1,7 @@
 const express = require('express')
 const cors = require('cors')
 const socket = require('socket.io')
+const cryptoRandomString = require('crypto-random-string');
 const app = express()
 
 
@@ -29,7 +30,6 @@ io = socket(server, {
 let users = []
 
 io.on('connection', (socket) => {
-    console.log(socket.id)
     socket.on('join', (data) => {
         socket.join(data.room)
         const user = {id: socket.id, value: data.user}
@@ -38,7 +38,7 @@ io.on('connection', (socket) => {
         io.sockets.to(socket.id).emit('set_user', user)
     })
 
-    socket.on('send_message', (data) => {
+    socket.on('send_message',(data) => {
         socket.to(data.room).emit('receive_message', data.content)
     })
 
