@@ -10,20 +10,19 @@ function App() {
 
     const [loggedIn, setLoggedIn] = useState(false)
     const [userName, setUserName] = useState('')
+    const [message, setMessage] = useState('')
+    const [messageList, setMessageList] = useState([])
+    const [activeUsers, setActiveUsers] = useState([])
 
     const onChangeUserName = (name) => {
         setUserName(name)
     }
 
-
-    const [message, setMessage] = useState('')
-    const [messageList, setMessageList] = useState([])
-
     const onChangeMessage = (message) => {
         setMessage(message)
     }
 
-    const sendMessage = async() => {
+    const sendMessage = async () => {
 
         let messageContent = {
             room: 'room',
@@ -33,25 +32,33 @@ function App() {
             }
         }
 
-       await socket.emit("send_message", messageContent)
+        await socket.emit("send_message", messageContent)
         setMessageList([...messageList, messageContent.content])
         setMessage("")
+    }
+
+
+    const connectToRoom = () => {
+        setLoggedIn(true)
+        socket.emit('join', {room: 'room', user: userName})
     }
 
     useEffect(() => {
         socket = io(CONNECTION_PORT)
     }, [])
 
-    useEffect(()=>{
-        socket.on('receive_message', (data)=>{
+    useEffect(() => {
+        socket.on('receive_message', (data) => {
             setMessageList([...messageList, data])
         })
     })
 
-    const connectToRoom = () => {
-        setLoggedIn(true)
-        socket.emit('join', 'room')
-    }
+    useEffect(()=>{
+       socket.on('set_users',(data)=>{
+           setActiveUsers(data)
+       })
+    },[])
+
 
 
     return (
@@ -60,10 +67,10 @@ function App() {
                 <Login onChangeUserName={onChangeUserName} connectToRoom={connectToRoom}/>
             ) : (
                 <div>
-                    <Aside/>
+                    <Aside userName={userName} activeUsers={activeUsers}/>
                     <main className="main">
                         <Dialog messages={messageList} userName={userName}/>
-                        <Sender onChangeMessage={onChangeMessage} sendMessage={sendMessage}/>
+                        <Sender onChangeMessage={onChangeMessage} sendMessage={sendMessage} message={message}/>
                     </main>
                 </div>
             )}

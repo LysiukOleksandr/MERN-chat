@@ -1,11 +1,11 @@
 import React from 'react';
 
-const UserItem = () => {
+const UserItem = ({item}) => {
     return (
         <li className="aside__bottom-list-item">
             <div className="aside__bottom-user">
                 <h3 className="aside__bottom-user-name">
-                    Phillip Torff
+                    {item.value}
                 </h3>
             </div>
         </li>
