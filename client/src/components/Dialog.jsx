@@ -1,17 +1,17 @@
 import React, {useEffect, useState, useCallback} from 'react';
 import {Message} from "./index";
 
-const Dialog = ({messages, userData}) => {
+const Dialog = ({messages, userData, readMessage}) => {
     const [messagesOffset, setMessagesOffset] = useState([])
 
-    const getOffsetTop = useCallback((obj) => {
+    const getOffsetTop = (obj) => {
         setMessagesOffset([...messagesOffset, obj])
-    }, [messagesOffset])
+    }
     const onScrollContent = useCallback((e) => {
         let scrollTop = e.target.scrollTop + 550
-        if (scrollTop >= 930) {
-            console.log(messagesOffset.find(i => i.offsetTop >= scrollTop) || false)
-            // console.log(scrollTop, ' scroll')
+        console.log(messagesOffset)
+        if (scrollTop >= 550 ) {
+            console.log(messagesOffset.find(i => i.offsetTop >= scrollTop))
         }
     }, [messagesOffset])
     useEffect(() => {

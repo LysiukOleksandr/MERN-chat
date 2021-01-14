@@ -2,6 +2,7 @@ import React, {useEffect, useRef} from 'react';
 
 const Message = ({author, authorId, userData, message, status, getOffsetTop, messageId}) => {
     const messageRef = useRef(null)
+
     useEffect(() => {
 
         if (authorId !== userData.id && status === 'sent') {
@@ -11,9 +12,9 @@ const Message = ({author, authorId, userData, message, status, getOffsetTop, mes
                 offsetTop
             }
             getOffsetTop(obj)
-
+            console.log('message')
         }
-    }, [authorId, getOffsetTop, messageId, status, userData.id])
+    }, [])
 
     return (
         <div ref={messageRef} className={`dialog__item ${authorId === userData.id ? 'dialog__item-my' : ''}`}>

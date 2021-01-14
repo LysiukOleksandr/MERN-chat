@@ -47,6 +47,10 @@ function App() {
         socket.emit('join', {room: 'room', user: userName})
     }
 
+    const readMessage = (messageId) => {
+        socket.emit('read_message', messageId)
+    }
+
     useEffect(() => {
         socket = io(CONNECTION_PORT)
     }, [])
@@ -77,7 +81,7 @@ function App() {
                 <div>
                     <Aside userName={userName} activeUsers={activeUsers}/>
                     <main className="main">
-                        <Dialog messages={messageList} userData={userData}/>
+                        <Dialog messages={messageList} userData={userData} readMessage={readMessage}/>
                         <Sender onChangeMessage={onChangeMessage} sendMessage={sendMessage} message={message}/>
                     </main>
                 </div>
