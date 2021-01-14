@@ -42,6 +42,10 @@ io.on('connection', (socket) => {
         socket.to(data.room).emit('receive_message', data.content)
     })
 
+    socket.on('read_message', (data)=>{
+        console.log(data)
+    })
+
 
     socket.on('disconnect', () => {
       users = users.filter(i => i.id !== socket.id)
