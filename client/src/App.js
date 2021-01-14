@@ -25,8 +25,6 @@ function App() {
 
     const sendMessage = async () => {
         if (message.trim().length) {
-
-
             let messageContent = {
                 room: 'room',
                 content: {
@@ -43,7 +41,6 @@ function App() {
             setMessage('')
         }
     }
-
 
     const connectToRoom = () => {
         setLoggedIn(true)

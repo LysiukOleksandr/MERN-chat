@@ -12,7 +12,7 @@ const Message = React.memo(({author, authorId, userData, message, status, getOff
         if (authorId !== userData.id && status === 'sent') {
             const offsetTop = messageRef.current.offsetTop
             const obj = {
-                id:messageId,
+                id: messageId,
                 offsetTop
             }
             getOffsetTop(obj)

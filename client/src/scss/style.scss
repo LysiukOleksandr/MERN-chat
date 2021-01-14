@@ -753,6 +753,8 @@ li {
     display: flex;
     flex-direction: column;
     justify-content: center;
+    max-width: 500px;
+    align-self: flex-start;
 
     &-name {
       font-weight: 600;
@@ -762,11 +764,11 @@ li {
     }
 
     &-message {
-      max-width: 500px;
       padding: 16px 20px 10px 20px;
       margin-top: 10px;
       background: $bg;
       border-radius: 10px;
+      word-wrap: break-word;
 
       &-text {
         max-width: 400px;
