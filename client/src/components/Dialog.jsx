@@ -6,14 +6,15 @@ const Dialog = ({messages, userData, readMessage}) => {
 
     const getOffsetTop = (obj) => {
         setMessagesOffset([...messagesOffset, obj])
+        console.log('NEW NEW NEW')
     }
-    const onScrollContent = useCallback((e) => {
+    const onScrollContent = (e) => {
         let scrollTop = e.target.scrollTop + 550
         console.log(messagesOffset)
-        if (scrollTop >= 550 ) {
-            console.log(messagesOffset.find(i => i.offsetTop >= scrollTop))
-        }
-    }, [messagesOffset])
+        // if (scrollTop >= 550 ) {
+         console.log(messagesOffset.find(i => i.offsetTop >= scrollTop))
+        // }
+    }
     useEffect(() => {
         document.querySelector('.dialog__content').addEventListener('scroll', onScrollContent)
     }, [onScrollContent])

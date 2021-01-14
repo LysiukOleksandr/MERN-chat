@@ -1,10 +1,14 @@
 import React, {useEffect, useRef} from 'react';
 
-const Message = ({author, authorId, userData, message, status, getOffsetTop, messageId}) => {
+const Message = React.memo(({author, authorId, userData, message, status, getOffsetTop, messageId}) => {
     const messageRef = useRef(null)
-
     useEffect(() => {
 
+        console.log('render message, ', message)
+
+    }, [message])
+
+    useEffect(() => {
         if (authorId !== userData.id && status === 'sent') {
             const offsetTop = messageRef.current.offsetTop
             const obj = {
@@ -15,6 +19,7 @@ const Message = ({author, authorId, userData, message, status, getOffsetTop, mes
             console.log('message')
         }
     }, [])
+
 
     return (
         <div ref={messageRef} className={`dialog__item ${authorId === userData.id ? 'dialog__item-my' : ''}`}>
@@ -83,7 +88,10 @@ const Message = ({author, authorId, userData, message, status, getOffsetTop, mes
             </div>
         </div>
     );
-};
+}, function (prevProps, nextProps) {
+    console.log(prevProps === nextProps)
+    return prevProps === nextProps;
+});
 
 export default Message;
 
