@@ -1,12 +1,12 @@
 import React, {useEffect, useRef} from 'react';
 
-const Message = React.memo(({author, authorId, userData, message, status, getOffsetTop, messageId}) => {
+const Message = ({author, authorId, userData, message, status, getOffsetTop, messageId}) => {
     const messageRef = useRef(null)
     useEffect(() => {
 
-        console.log('render message, ', message)
+        console.log('render message')
 
-    }, [message])
+    }, [])
 
     useEffect(() => {
         if (authorId !== userData.id && status === 'sent') {
@@ -16,9 +16,8 @@ const Message = React.memo(({author, authorId, userData, message, status, getOff
                 offsetTop
             }
             getOffsetTop(obj)
-            console.log('message')
         }
-    }, [])
+    }, [messageId])
 
 
     return (
@@ -88,31 +87,7 @@ const Message = React.memo(({author, authorId, userData, message, status, getOff
             </div>
         </div>
     );
-}, function (prevProps, nextProps) {
-    console.log(prevProps === nextProps, 'msg')
-    return prevProps === nextProps;
-});
+}
 
 export default Message;
 
-
-// <div className="dialog__item dialog__item-my">
-//     <h4 className="dialog__item-name">Mehmet Revnaki</h4>
-//     <div className="dialog__item-message">
-//                   <span className="dialog__item-message-text">
-//                     I have send the files
-//                   </span>
-//         <div className="dialog__item-message-flex">
-//             <div className="dialog__item-message-status">
-//                 <svg id="Capa_1" fill='#6588de' enableBackground="new 0 0 512 512" height="15"
-//                      viewBox="0 0 512 512" width="15" xmlns="http://www.w3.org/2000/svg">
-//                     <g>
-//                         <path
-//                             d="m473.074 120.729-203.295 203.296-21.212-21.212 153.765-153.764-38.926-38.926-153.765 153.765-61.047-61.047-38.926 38.926 61.047 61.047-21.211 21.211-110.578-110.577-38.926 38.926 149.503 149.503 60.138-60.137 60.137 60.137 242.222-242.221z"/>
-//                     </g>
-//                 </svg>
-//             </div>
-//             <p className="dialog__item-message-time">15:03</p>
-//         </div>
-//     </div>
-// </div>
