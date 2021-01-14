@@ -5,19 +5,30 @@ const Dialog = ({messages, userData, readMessage}) => {
     const [messagesOffset, setMessagesOffset] = useState([])
 
     const getOffsetTop = (obj) => {
-        setMessagesOffset([...messagesOffset, obj])
-        console.log('NEW NEW NEW')
+        if (messagesOffset && messagesOffset.length >= 1) {
+            // remove duplicates
+
+            const filteredArr = [...new Map([...messagesOffset, obj].map(item => [item.id, item])).values()]
+            setMessagesOffset(filteredArr)
+        } else {
+            setMessagesOffset([...messagesOffset, obj])
+        }
     }
     const onScrollContent = (e) => {
         let scrollTop = e.target.scrollTop + 550
-        console.log(messagesOffset)
+        console.log(messagesOffset.length, [...messagesOffset])
         // if (scrollTop >= 550 ) {
-         console.log(messagesOffset.find(i => i.offsetTop >= scrollTop))
+        // console.log(messagesOffset.find(i => i.offsetTop >= scrollTop))
         // }
     }
+
+    useEffect(()=>{
+        console.log('USE ',messagesOffset)
+    },[messagesOffset])
+
     useEffect(() => {
         document.querySelector('.dialog__content').addEventListener('scroll', onScrollContent)
-    }, [onScrollContent])
+    }, [])
 
 
     return (
