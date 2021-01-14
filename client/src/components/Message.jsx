@@ -89,7 +89,7 @@ const Message = React.memo(({author, authorId, userData, message, status, getOff
         </div>
     );
 }, function (prevProps, nextProps) {
-    console.log(prevProps === nextProps)
+    console.log(prevProps === nextProps, 'msg')
     return prevProps === nextProps;
 });
 

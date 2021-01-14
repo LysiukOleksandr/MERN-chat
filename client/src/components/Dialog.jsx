@@ -1,12 +1,12 @@
 import React, {useEffect, useState} from 'react';
 import {Message} from "./index";
 
-const Dialog = ({messages, userData, readMessage}) => {
+const Dialog = React.memo(({messages, userData, readMessage}) => {
     const [messagesOffset, setMessagesOffset] = useState([])
 
     const getOffsetTop = (obj) => {
         const msg = messagesOffset.find((el) => el.id === obj.id)
-        if(msg) return console.log('already added') ;
+        if (msg) return console.log('already added');
         console.log('offset')
         if (messagesOffset && messagesOffset.length >= 1) {
             // remove duplicates
@@ -18,14 +18,14 @@ const Dialog = ({messages, userData, readMessage}) => {
         }
     }
     const onScrollContent = (e) => {
-        console.log(e,messagesOffset)
+        console.log(e, messagesOffset)
     }
 
     useEffect(() => {
         const el = document.getElementById('dialogContainer')
-        if(el){
+        if (el) {
             el.addEventListener('scroll', onScrollContent)
-            return () =>  el.removeEventListener('scroll', onScrollContent)
+            return () => el.removeEventListener('scroll', onScrollContent)
         }
     }, [])
 
@@ -44,6 +44,7 @@ const Dialog = ({messages, userData, readMessage}) => {
             </div>
         </section>
     );
-};
-
+}, (prevProps, nextProps) => {
+    return prevProps.messages.length === nextProps.messages.length;
+})
 export default Dialog;
