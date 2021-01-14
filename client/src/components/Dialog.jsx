@@ -1,33 +1,45 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect, useState, useCallback} from 'react';
 import {Message} from "./index";
 
-const Dialog = React.memo(({messages, userData, readMessage}) => {
+const Dialog = ({messages, userData, readMessage}) => {
     const [messagesOffset, setMessagesOffset] = useState([])
 
-    const getOffsetTop = (obj) => {
+    const getOffsetTop = useCallback((obj) => {
+
         const msg = messagesOffset.find((el) => el.id === obj.id)
         if (msg) return console.log('already added');
-        console.log('offset')
-        if (messagesOffset && messagesOffset.length >= 1) {
-            // remove duplicates
 
+        if (messagesOffset && messagesOffset.length >= 1) {
+
+            // remove duplicates
             const filteredArr = [...new Map([...messagesOffset, obj].map(item => [item.id, item])).values()]
             setMessagesOffset(filteredArr)
         } else {
             setMessagesOffset([...messagesOffset, obj])
         }
-    }
-    const onScrollContent = (e) => {
-        console.log(e, messagesOffset)
-    }
+    }, [messagesOffset])
+
+
+    const onReadContent = useCallback((e) => {
+        let scrollTop = e.target.scrollTop + 550
+        const foundMessage = messagesOffset.find((i) => scrollTop > i.offsetTop) || null
+
+        if (foundMessage) {
+            const filteredMessagesOffset = messagesOffset.filter((i) => i.id !== foundMessage.id)
+            console.log('FILTERED_MESSAGE: ', filteredMessagesOffset)
+            setMessagesOffset(filteredMessagesOffset)
+            readMessage(foundMessage.id)
+        }
+
+    }, [messagesOffset])
 
     useEffect(() => {
         const el = document.getElementById('dialogContainer')
         if (el) {
-            el.addEventListener('scroll', onScrollContent)
-            return () => el.removeEventListener('scroll', onScrollContent)
+            el.addEventListener('scroll', onReadContent)
+            return () => el.removeEventListener('scroll', onReadContent)
         }
-    }, [])
+    }, [onReadContent])
 
 
     return (
@@ -44,7 +56,9 @@ const Dialog = React.memo(({messages, userData, readMessage}) => {
             </div>
         </section>
     );
-}, (prevProps, nextProps) => {
-    return prevProps.messages.length === nextProps.messages.length;
-})
+}
+// , (prevProps, nextProps) => {
+//     return prevProps.messages.length === nextProps.messages.length;
+// })
+
 export default Dialog;

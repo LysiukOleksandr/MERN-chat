@@ -47,8 +47,18 @@ function App() {
         socket.emit('join', {room: 'room', user: userName})
     }
 
-    const readMessage = (messageId) => {
-        socket.emit('read_message', messageId)
+    const readMessage = async (messageId) => {
+        const messageIndex = messageList.findIndex((i) => i.messageId === messageId)
+        if (messageIndex) {
+
+            const msg = Object.assign({}, messageList[messageIndex])
+            msg.status = 'read'
+            const newArr = messageList.filter((item, index) => index !== messageIndex)
+            setMessageList([...newArr, msg])
+            console.log(messageList)
+            await socket.emit("read_message", msg)
+
+        }
     }
 
     useEffect(() => {
@@ -72,6 +82,15 @@ function App() {
             setUserData(data)
         })
     }, [])
+
+    useEffect(() => {
+        socket.on('receive_read_message', (data) => {
+            const messageIndex = messageList.findIndex((i) => i.messageId === data.messageId)
+            const newArr = messageList.filter((item, index) => index !== messageIndex)
+            
+            setMessageList([...newArr, data])
+        })
+    }, [messageList])
 
     return (
         <div className='wrapper'>
