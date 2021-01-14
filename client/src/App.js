@@ -24,21 +24,24 @@ function App() {
     }
 
     const sendMessage = async () => {
+        if (message.trim().length) {
 
-        let messageContent = {
-            room: 'room',
-            content: {
-                author: userName,
-                authorId: userData.id,
-                messageId: Math.floor(Math.random() * 100000000),
-                status: 'sent',
-                message
+
+            let messageContent = {
+                room: 'room',
+                content: {
+                    author: userName,
+                    authorId: userData.id,
+                    messageId: Math.floor(Math.random() * 100000000),
+                    status: 'sent',
+                    message
+                }
             }
-        }
 
-        await socket.emit("send_message", messageContent)
-        setMessageList([...messageList, messageContent.content])
-        setMessage('')
+            await socket.emit("send_message", messageContent)
+            setMessageList([...messageList, messageContent.content])
+            setMessage('')
+        }
     }
 
 
