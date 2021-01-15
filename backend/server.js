@@ -1,6 +1,7 @@
 const express = require('express')
 const cors = require('cors')
 const socket = require('socket.io')
+const bcrypt = require('bcrypt')
 const cryptoRandomString = require('crypto-random-string');
 const app = express()
 
@@ -38,6 +39,14 @@ io.on('connection', (socket) => {
         io.sockets.emit('set_users', users)
     })
 
+    socket.on('send_message', async (obj) => {
+        const hashMessageId = await bcrypt.hash(obj.messageId, 5)
+        const msg = {
+            ...obj,
+            messageId: hashMessageId
+        }
+        io.sockets.emit('get_message', msg)
+    })
 
     socket.on('disconnect', () => {
         users = users.filter(i => i.id !== socket.id)
