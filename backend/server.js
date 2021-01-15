@@ -45,6 +45,7 @@ io.on('connection', (socket) => {
             ...obj,
             messageId: hashMessageId
         }
+        console.log(msg)
         io.sockets.emit('get_message', msg)
     })
 
