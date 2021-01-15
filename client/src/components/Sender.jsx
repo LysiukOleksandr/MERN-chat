@@ -12,13 +12,14 @@ const Sender = ({sendMessage}) => {
         sendMessage(message)
         const el = document.getElementById('senderInput')
         el.focus()
+        setMessage('')
     }
 
     const onPressEnter = (e) => {
         if (e.key !== 'Enter') return;
         onSubmit()
     }
-    
+
     return (
         <section className='sender'>
             <div className="container">

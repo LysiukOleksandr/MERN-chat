@@ -44,7 +44,7 @@ function App() {
         socket.on('get_message', (message) => {
             setMessages([...messages, message])
         })
-    }, [messages])
+    }, [])
 
     useEffect(()=>{
         console.log(messages)
