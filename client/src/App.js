@@ -51,12 +51,19 @@ function App() {
         const messageIndex = messageList.findIndex((i) => i.messageId === messageId)
         if (messageIndex) {
 
+            //  const msg = Object.assign({}, messageList[messageIndex])
+            // msg.status = 'read'
+            // const newArr = messageList.filter((item, index) => index !== messageIndex)
+            // setMessageList([...newArr, msg])
+            // console.log(messageList)
+            // await socket.emit("read_message", msg)
+
+            let msgs = [...messageList]
             const msg = Object.assign({}, messageList[messageIndex])
             msg.status = 'read'
-            const newArr = messageList.filter((item, index) => index !== messageIndex)
-            setMessageList([...newArr, msg])
-            console.log(messageList)
-            await socket.emit("read_message", msg)
+            msgs.splice(messageIndex, 1, msg)
+            setMessageList(msgs)
+            await socket.emit('read_message', msg)
 
         }
     }
@@ -97,9 +104,16 @@ function App() {
     useEffect(() => {
         socket.on('receive_read_message', (data) => {
             const messageIndex = messageList.findIndex((i) => i.messageId === data.messageId)
-            const newArr = messageList.filter((item, index) => index !== messageIndex)
+            // const newArr = messageList.filter((item, index) => index !== messageIndex)
+            //
+            // setMessageList([...newArr, data])
 
-            setMessageList([...newArr, data])
+            let msgs = [...messageList]
+            const msg = Object.assign({}, messageList[messageIndex])
+            msgs.splice(messageIndex, 1, msg)
+            setMessageList(msgs)
+
+
         })
     }, [messageList])
 

@@ -58,7 +58,7 @@ const Dialog = ({messages, userData, readMessage}) => {
                 <div className="dialog__wrapper">
                     <h1 className="dialog__title">Chat</h1>
                     <div className="dialog__content" id="dialogContainer">
-                        {messages && messages.reverse().map((item, index) => (
+                        {messages && messages.map((item, index) => (
                             <Message {...item} key={index} userData={userData} getOffsetTop={getOffsetTop}/> // getOffsetTop={getOffsetTop}
                         ))}
                     </div>
