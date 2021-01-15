@@ -1,10 +1,10 @@
 import React from 'react';
 import {User, UserItem} from "./index";
 
-const Aside = () => {
+const Aside = ({user}) => {
     return (
         <aside className="aside">
-            <User />
+            <User user={user}/>
             <div className="aside__bottom">
                 <div className="aside__bottom-active">
                     <h3 className="aside__bottom-title">Active users</h3>

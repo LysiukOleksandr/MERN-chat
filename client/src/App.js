@@ -52,7 +52,7 @@ function App() {
                 <Login connectTo={connectTo}/>
             ) : (
                 <div>
-                    <Aside/>
+                    <Aside user={userData}/>
                     <main className="main">
                         <Dialog/>
                         <Sender sendMessage={sendMessage}/>
