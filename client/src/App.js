@@ -72,9 +72,6 @@ function App() {
         socket = io(CONNECTION_PORT)
     }, [])
 
-    useEffect(() => {
-        console.log('LIST: ', messageList)
-    }, [messageList])
 
     useEffect(() => {
         socket.on('receive_message', (data) => {
@@ -109,8 +106,7 @@ function App() {
             // setMessageList([...newArr, data])
 
             let msgs = [...messageList]
-            const msg = Object.assign({}, messageList[messageIndex])
-            msgs.splice(messageIndex, 1, msg)
+            msgs.splice(messageIndex, 1, data)
             setMessageList(msgs)
 
 

@@ -4,14 +4,6 @@ const Message = ({author, authorId, userData, message, status, getOffsetTop, mes
     const messageRef = useRef(null)
 
     useEffect(() => {
-        console.log(status)
-    }, [status])
-
-    useEffect(() => {
-        console.log(message)
-    }, [message])
-
-    useEffect(() => {
         if (authorId !== userData.id && status === 'sent') {
             const offsetTop = messageRef.current.offsetTop
             console.log(offsetTop)
@@ -26,9 +18,6 @@ const Message = ({author, authorId, userData, message, status, getOffsetTop, mes
     }, [messageId, message, authorId, status, userData.id, getOffsetTop])
 
 
-    useEffect(() => {
-        console.log('MESSAGE ', message)
-    }, [])
 
     return (
         <div ref={messageRef} className={`dialog__item ${authorId === userData.id ? 'dialog__item-my' : ''}`}>
