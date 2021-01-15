@@ -1,7 +1,6 @@
 import React from 'react';
 
 const UserItem = ({user}) => {
-    console.log(user)
     return (
         <li className="aside__bottom-list-item">
             <div className="aside__bottom-user">

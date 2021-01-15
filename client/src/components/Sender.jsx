@@ -18,8 +18,7 @@ const Sender = ({sendMessage}) => {
         if (e.key !== 'Enter') return;
         onSubmit()
     }
-
-
+    
     return (
         <section className='sender'>
             <div className="container">

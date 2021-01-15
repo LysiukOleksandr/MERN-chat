@@ -11,6 +11,7 @@ function App() {
     const [loggedIn, setLoggedIn] = useState(false)
     const [userData, setUserData] = useState(null)
     const [activeUsers, setActiveUsers] = useState(null)
+    const [messages, setMessages] = useState([])
 
     useEffect(() => {
         socket = io(CONNECTION_PORT)
@@ -27,10 +28,27 @@ function App() {
 
     const sendMessage = (message) => {
         if (message && message.trim().length) {
-            socket.emit('send_message', message)
+            socket.emit('send_message', {
+                message,
+                messageId: `${userData.id}_${Math.floor(Math.random() * 1000000)}`,
+                authorId: userData.id,
+                author: userData.value
+            })
         }
     }
 
+
+    // GET MESSAGE
+
+    useEffect(() => {
+        socket.on('get_message', (message) => {
+            setMessages([...messages, message])
+        })
+    }, [messages])
+
+    useEffect(()=>{
+        console.log(messages)
+    },[messages])
 
     // useEffect HOOKS
 
