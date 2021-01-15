@@ -1,10 +1,10 @@
-import React, {useEffect, useRef} from 'react';
-
-const Message = ({message, messageId, authorId, author, status, userData}) => {
+import React from 'react';
 
 
+const Message = ({message, messageId, authorId, author, status, userData, forwardedRef}) => {
     return (
-        <div className={`dialog__item ${authorId === userData.id ? 'dialog__item-my' : ''}`}>
+        <div className={`dialog__item viewport-block ${authorId === userData.id ? 'dialog__item-my' : ''}`}
+             ref={forwardedRef ? forwardedRef : ''}>
             <h4 className="dialog__item-name">{author}</h4>
             <div className="dialog__item-message">
                 <p className="dialog__item-message-text">
