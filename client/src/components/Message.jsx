@@ -2,6 +2,7 @@ import React from 'react';
 
 
 const Message = ({message, messageId, authorId, author, status, userData, forwardedRef}) => {
+
     return (
         <div className={`dialog__item viewport-block ${authorId === userData.id ? 'dialog__item-my' : ''}`}
              ref={forwardedRef ? forwardedRef : ''}>

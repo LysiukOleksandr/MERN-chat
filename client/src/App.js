@@ -1,10 +1,6 @@
-import {useState, useEffect} from 'react'
+import {useEffect, useState} from 'react'
 import {Aside, Dialog, Login, Sender} from "./components";
-import io from 'socket.io-client'
-
-let socket;
-
-const CONNECTION_PORT = 'localhost:8000/'
+import socket from './socket'
 
 function App() {
 
@@ -12,44 +8,92 @@ function App() {
     const [userData, setUserData] = useState(null)
     const [activeUsers, setActiveUsers] = useState(null)
     const [messages, setMessages] = useState([])
-    useEffect(() => {
-        socket = io(CONNECTION_PORT)
-    }, [])
 
-    // CONNECT
+    // Connect
     const connectTo = (userName) => {
         if (userName && userName.trim().length) {
             socket.emit('join', userName)
         }
     }
 
-    // SEND MESSAGE
+    // Send message
 
     const sendMessage = (message) => {
         if (message && message.trim().length) {
             socket.emit('send_message', {
                 message,
-                messageId: `${userData.id}_${Math.floor(Math.random() * 1000000)}`,
+                messageId: `${userData.id}_${Math.floor(Math.random() * 100000000) + Math.random() * 5324}_${userData.value}`,
                 authorId: userData.id,
                 author: userData.value
             })
         }
     }
 
+    // Read message
 
-    // GET MESSAGE
+    const readMessage = (messageId) => {
+        if (messageId) {
+            socket.emit('read_message', messageId)
+        }
+    }
 
-
+    // Get message
     useEffect(() => {
         socket.on('get_message', (message) => {
-            setMessages(m => [...m, message])
+            // setMessages(m => [...m, message])
+            setMessages(m => {
+                if (m) {
+                    return [...m, message]
+                }
+            })
+
         })
     }, [])
 
-    useEffect(() => {
-        console.log(messages)
-    }, [messages])
+    // Get read message
 
+    // useEffect(()=>{
+    //     socket.on('get_read_message', (mgsId)=>{
+    //         console.log('HERE HERE HERE')
+    //     })
+    // },[])
+
+    useEffect(() => {
+        socket.on('get_read_message', (msgId) => {
+            setMessages((m) => {
+                if (m) {
+                    const indx = m.findIndex(i => i.messageId === msgId)
+                    if (indx) {
+                        let msgs = [...m]
+                        console.log(msgs)
+                        msgs[indx].status = 'read'
+                        console.log(msgs)
+                        return [...msgs]
+                    }
+                } else {
+                    console.log('попадает сюда')
+
+                }
+            })
+        })
+    }, [])
+
+    //
+    // useEffect(() => {
+    //     socket.on('get_read_message', (message) => {
+    //
+    //         setMessages((m) => {
+    //             if (m) {
+    //                 const msgIndex = m.find(i => i.messageId === message.messageId)
+    //                 if (msgIndex) {
+    //                     let msgs = [...m];
+    //                     msgs.splice(msgIndex, 1, message)
+    //                     return msgs
+    //                 }
+    //             }
+    //         })
+    //     })
+    // }, [])
 
     // Current user
     useEffect(() => {
@@ -58,8 +102,8 @@ function App() {
         })
     }, [])
 
-    // Active users
 
+    // Active users
     useEffect(() => {
         socket.on('set_users', (users) => {
             setActiveUsers(users)
@@ -81,7 +125,7 @@ function App() {
                 <div>
                     <Aside user={userData} users={activeUsers}/>
                     <main className="main">
-                        <Dialog messages={messages} userData={userData}/>
+                        <Dialog messages={messages} userData={userData} readMessage={readMessage}/>
                         <Sender sendMessage={sendMessage}/>
                     </main>
                 </div>
