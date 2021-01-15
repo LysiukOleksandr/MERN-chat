@@ -40,14 +40,22 @@ io.on('connection', (socket) => {
     })
 
     socket.on('send_message', async (obj) => {
-        const hashMessageId = await bcrypt.hash(obj.messageId, 5)
+        const hashMessageId = await bcrypt.hash(obj.messageId, 8)
         const msg = {
             ...obj,
             messageId: hashMessageId,
             status: 'sent'
         }
-        console.log(msg)
         io.sockets.emit('get_message', msg)
+    })
+
+    // socket.on('read_message', (obj) =>{
+    //     obj.status = 'read'
+    //     io.sockets.emit('get_read_message', obj)
+    // })
+
+    socket.on('read_message', (id) =>{
+        io.sockets.emit('get_read_message', id)
     })
 
     socket.on('disconnect', () => {
