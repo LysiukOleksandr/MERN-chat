@@ -12,7 +12,6 @@ function App() {
     const [userData, setUserData] = useState(null)
     const [activeUsers, setActiveUsers] = useState(null)
     const [messages, setMessages] = useState([])
-
     useEffect(() => {
         socket = io(CONNECTION_PORT)
     }, [])
@@ -40,17 +39,16 @@ function App() {
 
     // GET MESSAGE
 
+
     useEffect(() => {
         socket.on('get_message', (message) => {
-            setMessages([...messages, message])
+            setMessages(m => [...m, message])
         })
     }, [])
 
-    useEffect(()=>{
+    useEffect(() => {
         console.log(messages)
-    },[messages])
-
-    // useEffect HOOKS
+    }, [messages])
 
 
     // Current user
@@ -83,7 +81,7 @@ function App() {
                 <div>
                     <Aside user={userData} users={activeUsers}/>
                     <main className="main">
-                        <Dialog/>
+                        <Dialog messages={messages} userData={userData}/>
                         <Sender sendMessage={sendMessage}/>
                     </main>
                 </div>
