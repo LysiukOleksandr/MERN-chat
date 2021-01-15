@@ -66,12 +66,18 @@ function App() {
     }, [])
 
     useEffect(() => {
+        console.log('LIST: ', messageList)
+    }, [messageList])
+
+    useEffect(() => {
         socket.on('receive_message', (data) => {
-            const msg = messageList.length && messageList.find((i) => i.messageId === data.messageId)
-            if (!msg) {
-                console.log('DATA:', data)
-                setMessageList([...messageList, data])
-            }
+            // const msg = messageList.length && messageList.find((i) => i.messageId === data.messageId)
+            // if (!msg) {
+            //     console.log('DATA:', data)
+            // console.log('PREV:', [...messageList])
+            setMessageList([...messageList, data])
+            // console.log([...messageList, data])
+            // }
         })
     }, [messageList])
 
