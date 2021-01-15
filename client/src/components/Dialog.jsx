@@ -3,42 +3,53 @@ import {Message} from "./index";
 
 const Dialog = ({messages, userData, readMessage}) => {
     const [messagesOffset, setMessagesOffset] = useState([])
-    //
-    // const getOffsetTop = useCallback((obj) => {
-    //
-    //     const msg = messagesOffset.find((el) => el.id === obj.id)
-    //     if (msg) return console.log('already added');
-    //
-    //     if (messagesOffset && messagesOffset.length >= 1) {
-    //
-    //         // remove duplicates
-    //         const filteredArr = [...new Map([...messagesOffset, obj].map(item => [item.id, item])).values()]
-    //         setMessagesOffset(filteredArr)
-    //     } else {
-    //         setMessagesOffset([...messagesOffset, obj])
-    //     }
-    // }, [messagesOffset])
-    //
-    //
-    // const onReadContent = useCallback((e) => {
-    //     let scrollTop = e.target.scrollTop + 550
-    //     const foundMessage = messagesOffset.find((i) => scrollTop > i.offsetTop) || null
-    //
-    //     if (foundMessage) {
-    //         const filteredMessagesOffset = messagesOffset.filter((i) => i.id !== foundMessage.id)
-    //         setMessagesOffset(filteredMessagesOffset)
-    //         readMessage(foundMessage.id)
-    //     }
-    //
-    // }, [messagesOffset])
 
-    // useEffect(() => {
-    //     const el = document.getElementById('dialogContainer')
-    //     if (el) {
-    //         el.addEventListener('scroll', onReadContent)
-    //         return () => el.removeEventListener('scroll', onReadContent)
-    //     }
-    // }, [onReadContent])
+    const getOffsetTop = useCallback((obj) => {
+
+        const msg = messagesOffset.find((el) => el.id === obj.id)
+        if (msg) return console.log('already added');
+
+        if (messagesOffset && messagesOffset.length >= 1) {
+
+            // remove duplicates
+            const filteredArr = [...new Map([...messagesOffset, obj].map(item => [item.id, item])).values()]
+            setMessagesOffset(filteredArr)
+        } else {
+            setMessagesOffset([...messagesOffset, obj])
+        }
+    }, [messagesOffset])
+
+
+    const onReadContent = useCallback((e) => {
+        if (e.type === 'scroll') {
+            let scrollTop = e.target.scrollTop + 550
+            const foundMessage = messagesOffset.find((i) => scrollTop > i.offsetTop) || null
+
+            if (foundMessage) {
+                const filteredMessagesOffset = messagesOffset.filter((i) => i.id !== foundMessage.id)
+                setMessagesOffset(filteredMessagesOffset)
+                readMessage(foundMessage.id)
+            }
+        }
+
+
+    }, [messagesOffset])
+
+    useEffect(() => {
+        const el = document.getElementById('dialogContainer')
+        if (el) {
+            el.addEventListener('scroll', onReadContent)
+            return () => el.removeEventListener('scroll', onReadContent)
+        }
+    }, [onReadContent])
+
+    useEffect(() => {
+        const el = document.getElementById('dialogContainer')
+        if (el) {
+            el.addEventListener('mousemove', onReadContent)
+            return () => el.removeEventListener('mousemove', onReadContent)
+        }
+    }, [onReadContent])
 
 
     return (
@@ -48,7 +59,7 @@ const Dialog = ({messages, userData, readMessage}) => {
                     <h1 className="dialog__title">Chat</h1>
                     <div className="dialog__content" id="dialogContainer">
                         {messages && messages.reverse().map((item, index) => (
-                            <Message {...item} key={index} userData={userData}/> // getOffsetTop={getOffsetTop}
+                            <Message {...item} key={index} userData={userData} getOffsetTop={getOffsetTop}/> // getOffsetTop={getOffsetTop}
                         ))}
                     </div>
                 </div>

@@ -2,27 +2,28 @@ import React, {useEffect, useRef} from 'react';
 
 const Message = ({author, authorId, userData, message, status, getOffsetTop, messageId}) => {
     const messageRef = useRef(null)
-    //
-    // useEffect(() => {
-    //     console.log(status)
-    // }, [status])
-    //
-    // useEffect(() => {
-    //     console.log(message)
-    // }, [message])
-    //
-    // useEffect(() => {
-    //     if (authorId !== userData.id && status === 'sent') {
-    //         const offsetTop = messageRef.current.offsetTop
-    //         const obj = {
-    //             id: messageId,
-    //             offsetTop
-    //         }
-    //         getOffsetTop(obj)
-    //     }
-    //
-    //
-    // }, [messageId, message, authorId, status, userData.id, getOffsetTop])
+
+    useEffect(() => {
+        console.log(status)
+    }, [status])
+
+    useEffect(() => {
+        console.log(message)
+    }, [message])
+
+    useEffect(() => {
+        if (authorId !== userData.id && status === 'sent') {
+            const offsetTop = messageRef.current.offsetTop
+            console.log(offsetTop)
+            const obj = {
+                id: messageId,
+                offsetTop: offsetTop
+            }
+            getOffsetTop(obj)
+        }
+
+
+    }, [messageId, message, authorId, status, userData.id, getOffsetTop])
 
 
     useEffect(() => {
