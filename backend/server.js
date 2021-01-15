@@ -20,6 +20,7 @@ app.use(express.json())
 const server = app.listen('8000', () => {
     console.log('Server running on port 8000')
 })
+
 io = socket(server, {
     cors: {
         origin: "http://localhost:3000",
@@ -31,26 +32,15 @@ let users = []
 
 io.on('connection', (socket) => {
     socket.on('join', (data) => {
-        socket.join(data.room)
-        const user = {id: socket.id, value: data.user}
+        const user = {id: socket.id, value: data}
         users.push(user)
-        io.sockets.emit('set_users', users)
         io.sockets.to(socket.id).emit('set_user', user)
+        io.sockets.emit('set_users', users)
     })
 
-    socket.on('send_message',(data) => {
-        socket.to(data.room).emit('receive_message', data.content)
-    })
-
-    socket.on('read_message', (data)=>{
-        if(data){
-            data.status = 'read'
-            socket.to('room').emit('receive_read_message', data)
-        }
-    })
 
     socket.on('disconnect', () => {
-      users = users.filter(i => i.id !== socket.id)
+        users = users.filter(i => i.id !== socket.id)
         io.sockets.emit('set_users', users)
         console.log('User disconnected')
 
