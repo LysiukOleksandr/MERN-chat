@@ -1,4 +1,4 @@
-import {useState, useEffect, useCallback} from 'react'
+import {useState, useEffect} from 'react'
 import {Aside, Dialog, Login, Sender} from "./components";
 import io from 'socket.io-client'
 
@@ -67,9 +67,14 @@ function App() {
 
     useEffect(() => {
         socket.on('receive_message', (data) => {
-            setMessageList([...messageList, data])
+            const msg = messageList.length && messageList.find((i) => i.messageId === data.messageId)
+            if (!msg) {
+                console.log('DATA:', data)
+                setMessageList([...messageList, data])
+            }
         })
     }, [messageList])
+
 
     useEffect(() => {
         socket.on('set_users', (data) => {
@@ -87,7 +92,7 @@ function App() {
         socket.on('receive_read_message', (data) => {
             const messageIndex = messageList.findIndex((i) => i.messageId === data.messageId)
             const newArr = messageList.filter((item, index) => index !== messageIndex)
-            
+
             setMessageList([...newArr, data])
         })
     }, [messageList])
