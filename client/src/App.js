@@ -10,6 +10,7 @@ function App() {
 
     const [loggedIn, setLoggedIn] = useState(false)
     const [userData, setUserData] = useState(null)
+    const [activeUsers, setActiveUsers] = useState(null)
 
     useEffect(() => {
         socket = io(CONNECTION_PORT)
@@ -33,13 +34,23 @@ function App() {
 
     // useEffect HOOKS
 
+
+    // Current user
     useEffect(() => {
         socket.on('set_user', (user) => {
             setUserData(user)
         })
     }, [])
 
+    // Active users
 
+    useEffect(() => {
+        socket.on('set_users', (users) => {
+            setActiveUsers(users)
+        })
+    }, [])
+
+    // isLogged
     useEffect(() => {
         if (userData) {
             setLoggedIn(true)
@@ -52,7 +63,7 @@ function App() {
                 <Login connectTo={connectTo}/>
             ) : (
                 <div>
-                    <Aside user={userData}/>
+                    <Aside user={userData} users={activeUsers}/>
                     <main className="main">
                         <Dialog/>
                         <Sender sendMessage={sendMessage}/>
