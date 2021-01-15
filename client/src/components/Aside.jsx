@@ -1,17 +1,15 @@
 import React from 'react';
 import {User, UserItem} from "./index";
 
-const Aside = ({userName, activeUsers}) => {
+const Aside = () => {
     return (
         <aside className="aside">
-            <User userName={userName}/>
+            <User />
             <div className="aside__bottom">
                 <div className="aside__bottom-active">
                     <h3 className="aside__bottom-title">Active users</h3>
                     <ul className="aside__bottom-list">
-                        {activeUsers && activeUsers.length !== 0 && activeUsers.map((item)=>(
-                            <UserItem key={item.id} item={item} />
-                        ))}
+
                     </ul>
                 </div>
             </div>
