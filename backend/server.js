@@ -43,7 +43,8 @@ io.on('connection', (socket) => {
         const hashMessageId = await bcrypt.hash(obj.messageId, 5)
         const msg = {
             ...obj,
-            messageId: hashMessageId
+            messageId: hashMessageId,
+            status: 'sent'
         }
         console.log(msg)
         io.sockets.emit('get_message', msg)
