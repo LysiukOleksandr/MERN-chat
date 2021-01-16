@@ -52,48 +52,20 @@ function App() {
 
     // Get read message
 
-    // useEffect(()=>{
-    //     socket.on('get_read_message', (mgsId)=>{
-    //         console.log('HERE HERE HERE')
-    //     })
-    // },[])
-
     useEffect(() => {
         socket.on('get_read_message', (msgId) => {
             setMessages((m) => {
-                if (m) {
-                    const indx = m.findIndex(i => i.messageId === msgId)
-                    if (indx) {
-                        let msgs = [...m]
-                        console.log(msgs)
-                        msgs[indx].status = 'read'
-                        console.log(msgs)
-                        return [...msgs]
-                    }
+                const indx = m.findIndex(i => i.messageId === msgId)
+                if (indx !== -1) {
+                    let msgs = [...m]
+                    msgs[indx].status = 'read'
+                    return [...msgs]
                 } else {
-                    console.log('попадает сюда')
-
+                    return [...m]
                 }
             })
         })
     }, [])
-
-    //
-    // useEffect(() => {
-    //     socket.on('get_read_message', (message) => {
-    //
-    //         setMessages((m) => {
-    //             if (m) {
-    //                 const msgIndex = m.find(i => i.messageId === message.messageId)
-    //                 if (msgIndex) {
-    //                     let msgs = [...m];
-    //                     msgs.splice(msgIndex, 1, message)
-    //                     return msgs
-    //                 }
-    //             }
-    //         })
-    //     })
-    // }, [])
 
     // Current user
     useEffect(() => {
