@@ -49,10 +49,6 @@ io.on('connection', (socket) => {
         io.sockets.emit('get_message', msg)
     })
 
-    // socket.on('read_message', (obj) =>{
-    //     obj.status = 'read'
-    //     io.sockets.emit('get_read_message', obj)
-    // })
 
     socket.on('read_message', (id) =>{
         io.sockets.emit('get_read_message', id)
