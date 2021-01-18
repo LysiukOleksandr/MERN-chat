@@ -13,20 +13,18 @@ function App() {
 
     // Login
 
-    const onChangeUserName = (val) =>{
+    const onChangeUserName = (val) => {
         setUserName(val)
     }
 
-    const onChangeRoom = (val) =>{
+    const onChangeRoom = (val) => {
         setRoom(val)
     }
 
-
-
     // Connect
-    const connectTo = (userName) => {
-        if (userName && userName.trim().length) {
-            socket.emit('join', userName)
+    const connectTo = () => {
+        if (userName && userName.trim().length && room) {
+            socket.emit('join', {userName,room})
         }
     }
 
@@ -109,7 +107,8 @@ function App() {
             {!loggedIn ? (
                 <div>
                     <Rooms/>
-                    <Login connectTo={connectTo} userName={userName} room={room} onChangeUserName={onChangeUserName} onChangeRoom={onChangeRoom}/>
+                    <Login connectTo={connectTo} userName={userName} room={room} onChangeUserName={onChangeUserName}
+                           onChangeRoom={onChangeRoom}/>
                 </div>
             ) : (
                 <div>
