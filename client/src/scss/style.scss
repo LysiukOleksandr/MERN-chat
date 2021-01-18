@@ -2,7 +2,6 @@
 @import url("https://fonts.googleapis.com/css2?family=Roboto:wght@100;300;400;500;700;900&display=swap");
 
 
-
 /* Document
    ========================================================================== */
 
@@ -472,7 +471,7 @@ $text: #52585d;
 $green: #46d362;
 $white-text: #fdfdfe;
 $border: #96a9ba;
-
+$blue: #949cdf;
 
 // RESET CSS
 
@@ -932,3 +931,50 @@ li {
   }
 }
 
+.rooms {
+  position: fixed;
+  left: 0;
+  top: 0;
+  width: 250px;
+  height: 100%;
+  background: $bg;
+  overflow-y: auto;
+
+  &__search {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+    & h3 {
+      font-size: 15px;
+      font-weight: 600;
+      color: $text;
+      margin-top: 10px;
+    }
+
+    & input {
+      width: 200px;
+      margin-top: 20px;
+      border: none;
+      padding: 10px;
+      outline: none;
+      border-radius: 10px;
+    }
+  }
+
+  &__items {
+    margin-top: 30px;
+
+    & li {
+      padding: 15px;
+      background: $purple;
+      margin-top: 10px;
+      color: #fff;
+      cursor: pointer;
+      transition: 0.3s all ease;
+      &:hover{
+        outline: 1px solid black;
+      }
+    }
+  }
+}

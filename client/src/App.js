@@ -1,5 +1,5 @@
 import {useEffect, useState} from 'react'
-import {Aside, Dialog, Login, Sender} from "./components";
+import {Aside, Dialog, Login, Rooms, Sender} from "./components";
 import socket from './socket'
 
 function App() {
@@ -92,7 +92,10 @@ function App() {
     return (
         <div className='wrapper'>
             {!loggedIn ? (
-                <Login connectTo={connectTo}/>
+                <div>
+                    <Rooms/>
+                    <Login connectTo={connectTo}/>
+                </div>
             ) : (
                 <div>
                     <Aside user={userData} users={activeUsers}/>
