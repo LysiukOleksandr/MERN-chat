@@ -1,4 +1,5 @@
 import React from 'react';
+import {Room} from "./index";
 
 const Rooms = () => {
     return (
@@ -9,7 +10,7 @@ const Rooms = () => {
                     <input type="text" placeholder='Search room'/>
                 </div>
                 <ul className="rooms__items">
-                    <li>IT</li>
+                    <Room/>
                 </ul>
             </aside>
         </div>

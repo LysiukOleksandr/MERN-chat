@@ -8,6 +8,20 @@ function App() {
     const [userData, setUserData] = useState(null)
     const [activeUsers, setActiveUsers] = useState(null)
     const [messages, setMessages] = useState([])
+    const [userName, setUserName] = useState('')
+    const [room, setRoom] = useState('')
+
+    // Login
+
+    const onChangeUserName = (val) =>{
+        setUserName(val)
+    }
+
+    const onChangeRoom = (val) =>{
+        setRoom(val)
+    }
+
+
 
     // Connect
     const connectTo = (userName) => {
@@ -89,12 +103,13 @@ function App() {
         }
     }, [userData])
 
+
     return (
         <div className='wrapper'>
             {!loggedIn ? (
                 <div>
                     <Rooms/>
-                    <Login connectTo={connectTo}/>
+                    <Login connectTo={connectTo} userName={userName} room={room} onChangeUserName={onChangeUserName} onChangeRoom={onChangeRoom}/>
                 </div>
             ) : (
                 <div>
