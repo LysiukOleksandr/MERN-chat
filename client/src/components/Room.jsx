@@ -1,10 +1,8 @@
 import React from 'react';
 
-const Room = () => {
+const Room = ({value}) => {
     return (
-        <div>
-            room
-        </div>
+        <li>IT</li>
     );
 };
 

@@ -10,10 +10,6 @@ const Rooms = () => {
                 </div>
                 <ul className="rooms__items">
                     <li>IT</li>
-                    <li>Development</li>
-                    <li>New York</li>
-                    <li>California chat</li>
-
                 </ul>
             </aside>
         </div>
