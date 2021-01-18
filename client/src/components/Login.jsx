@@ -13,7 +13,7 @@ const Login = ({connectTo}) => {
         onSubmit()
     }
 
-    const onSubmit = () =>{
+    const onSubmit = () => {
         connectTo(userName)
     }
 
@@ -24,6 +24,8 @@ const Login = ({connectTo}) => {
                 <div className="login__content">
                     <h1>Please, enter your username</h1>
                     <input type="text" placeholder='name' onChange={onChangeUserName}/>
+                    <h1>Create room</h1>
+                    <input type="text" placeholder='room' title={"Enter a room only if you want to create it"}/>
                     <button type="button" onClick={onSubmit}>Enter</button>
                 </div>
             </div>
