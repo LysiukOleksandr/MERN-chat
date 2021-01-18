@@ -9,9 +9,9 @@ const Aside = ({user, users}) => {
                 <div className="aside__bottom-active">
                     <h3 className="aside__bottom-title">Active users</h3>
                     <ul className="aside__bottom-list">
-                        {/*{users && users.map((user)=>(*/}
-                        {/*    <UserItem user={user} key={user.id} />*/}
-                        {/*))}*/}
+                        {users && users.length && users.map((user)=>(
+                            <UserItem user={user} key={user.id} />
+                        ))}
                     </ul>
                 </div>
             </div>

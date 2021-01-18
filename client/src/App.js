@@ -92,6 +92,7 @@ function App() {
     useEffect(() => {
         socket.on('set_users', (users) => {
             setActiveUsers(users)
+            console.log(users)
         })
     }, [])
 
