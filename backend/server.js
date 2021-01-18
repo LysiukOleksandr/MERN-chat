@@ -29,14 +29,17 @@ io = socket(server, {
     }
 })
 
-let users = []
+let users = new Map()
 
 io.on('connection', (socket) => {
-    socket.on('join', (data) => {
-        const user = {id: socket.id, value: data}
-        users.push(user)
+    socket.on('join', ({userName, room}) => {
+        const user = {id: socket.id, value: userName, room}
+
+        !!users.get(room) ? users.get(room).set(socket.id, userName) : users.set(room, new Map([[socket.id, userName]]))
+
+        socket.join(room)
         io.sockets.to(socket.id).emit('set_user', user)
-        io.sockets.emit('set_users', users)
+        io.sockets.emit('set_users', Array.from(users.get(room), ([id, value]) => ({id, value})))
     })
 
     socket.on('send_message', async (obj) => {
@@ -46,18 +49,24 @@ io.on('connection', (socket) => {
             messageId: hashMessageId,
             status: 'sent'
         }
-        io.sockets.emit('get_message', msg)
+        io.sockets.to(obj.room).emit('get_message', msg)
     })
 
-
-    socket.on('read_message', (id) =>{
+    socket.on('read_message', (id) => {
         io.sockets.emit('get_read_message', id)
     })
 
-    socket.on('disconnect', () => {
-        users = users.filter(i => i.id !== socket.id)
-        io.sockets.emit('set_users', users)
-        console.log('User disconnected')
+    // new
 
+    socket.on('disconnect', () => {
+        users.forEach((item) => {
+            if (item.has(socket.id)) {
+                item.delete(socket.id)
+                io.sockets.emit('set_users', Array.from(item, ([id, value])=> ({id, value})))
+            }
+        })
+
+        // io.sockets.emit('set_users', )
+        console.log('User disconnected')
     })
 })
