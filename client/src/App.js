@@ -24,7 +24,7 @@ function App() {
     // Connect
     const connectTo = () => {
         if (userName && userName.trim().length && room) {
-            socket.emit('join', {userName,room})
+            socket.emit('join', {userName, room})
         }
     }
 
@@ -36,7 +36,8 @@ function App() {
                 message,
                 messageId: `${userData.id}_${Math.floor(Math.random() * 100000000) + Math.random() * 5324}_${userData.value}`,
                 authorId: userData.id,
-                author: userData.value
+                author: userData.value,
+                room
             })
         }
     }
@@ -50,9 +51,9 @@ function App() {
     }
 
     // Get message
+
     useEffect(() => {
         socket.on('get_message', (message) => {
-            // setMessages(m => [...m, message])
             setMessages(m => {
                 if (m) {
                     return [...m, message]
