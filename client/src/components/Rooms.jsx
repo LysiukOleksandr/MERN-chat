@@ -1,7 +1,7 @@
-import React from 'react';
+import React, {useState, useEffect} from 'react';
 import {Room} from "./index";
 
-const Rooms = () => {
+const Rooms = ({rooms}) => {
     return (
         <div>
             <aside className='rooms'>
@@ -9,11 +9,10 @@ const Rooms = () => {
                     <h3>Search room</h3>
                     <input type="text" placeholder='Search room'/>
                 </div>
-                <div className="rooms__logout">
-                    <button>Leave</button>
-                </div>
                 <ul className="rooms__items">
-                    <Room/>
+                    {rooms && rooms.length > 0 && rooms.map((room)=>(
+                        <Room key={room} room={room} />
+                    ))}
                 </ul>
             </aside>
         </div>

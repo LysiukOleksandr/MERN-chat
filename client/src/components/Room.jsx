@@ -1,8 +1,8 @@
 import React from 'react';
 
-const Room = ({value}) => {
+const Room = ({room}) => {
     return (
-        <li>IT</li>
+        <li>{room}</li>
     );
 };
 

@@ -10,7 +10,7 @@ function App() {
     const [messages, setMessages] = useState([])
     const [userName, setUserName] = useState('')
     const [room, setRoom] = useState('')
-
+    const [allRooms, setAllRooms] = useState([])
     // Login
 
     const onChangeUserName = (val) => {
@@ -48,6 +48,14 @@ function App() {
         if (messageId) {
             socket.emit('read_message', messageId)
         }
+    }
+
+    // Leave room
+
+    const onLeave = () =>{
+        setLoggedIn(false)
+        setMessages(m => [])
+
     }
 
     // Get message
@@ -92,9 +100,19 @@ function App() {
     useEffect(() => {
         socket.on('set_users', (users) => {
             setActiveUsers(users)
-            console.log(users)
         })
     }, [])
+
+    // Rooms
+    useEffect(() => {
+        socket.on('set_rooms', (rooms) => {
+            setAllRooms(r => [...rooms])
+        })
+    }, [])
+
+    useEffect(() => {
+        console.log('ALL_ROOMS: ', allRooms)
+    }, [allRooms])
 
     // isLogged
     useEffect(() => {
@@ -103,19 +121,17 @@ function App() {
         }
     }, [userData])
 
-
-
     return (
         <div className='wrapper'>
             {!loggedIn ? (
                 <div>
-                    <Rooms/>
+                    <Rooms rooms={allRooms}/>
                     <Login connectTo={connectTo} userName={userName} room={room} onChangeUserName={onChangeUserName}
                            onChangeRoom={onChangeRoom}/>
                 </div>
             ) : (
                 <div>
-                    <Aside user={userData} users={activeUsers}/>
+                    <Aside user={userData} users={activeUsers} onLeave={onLeave}/>
                     <main className="main">
                         <Dialog messages={messages} userData={userData} readMessage={readMessage}/>
                         <Sender sendMessage={sendMessage}/>
