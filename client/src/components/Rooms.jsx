@@ -1,16 +1,16 @@
-import React, {useState, useEffect} from 'react';
+import React from 'react';
 import {Room} from "./index";
 
-const Rooms = ({rooms, connectTo}) => {
+const Rooms = ({rooms, searchValue, connectTo, searchRooms}) => {
     return (
         <div>
             <aside className='rooms'>
                 <div className="rooms__search">
                     <h3>Rooms</h3>
-                    <input type="text" placeholder='Search room'/>
+                    <input type="text" placeholder='Search room' value={searchValue} onChange={(e) => searchRooms(e.target.value)}/>
                 </div>
                 <ul className="rooms__items">
-                    {rooms && rooms.length > 0 && rooms.map((room)=>(
+                    {rooms && rooms.length > 0 && rooms.map((room) => (
                         <Room key={room} room={room} connectTo={connectTo}/>
                     ))}
                 </ul>

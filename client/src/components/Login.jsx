@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React from 'react';
 
 const Login = ({connectTo, userName, room, onChangeUserName, onChangeRoom}) => {
 
@@ -19,7 +19,7 @@ const Login = ({connectTo, userName, room, onChangeUserName, onChangeRoom}) => {
                     <h1>Please, enter your username</h1>
                     <input type="text" placeholder='name' value={userName}
                            onChange={(e) => onChangeUserName(e.target.value)}/>
-                    <h1>Create room</h1>
+                    <h1>Room</h1>
                     <input type="text" placeholder='room' value={room}
                            title={"Enter a room only if you want to create it"}
                            onChange={(e) => onChangeRoom(e.target.value)}/>

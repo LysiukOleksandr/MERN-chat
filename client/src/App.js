@@ -11,6 +11,7 @@ function App() {
     const [userName, setUserName] = useState('')
     const [room, setRoom] = useState('')
     const [allRooms, setAllRooms] = useState([])
+    const [searchValue, setSearchValue] = useState('')
     // Login
 
     const onChangeUserName = (val) => {
@@ -23,7 +24,6 @@ function App() {
 
     // Connect
     const connectTo = (checkedRoom) => {
-        console.log(checkedRoom)
         if (userName && userName.trim().length) {
             if (checkedRoom) {
                 socket.emit('join', {userName, room: checkedRoom})
@@ -40,15 +40,13 @@ function App() {
     // Search rooms
 
     const searchRooms = (searchValue) => {
-        if (searchValue && searchValue.trim().length) {
-            socket.emit('search_rooms', searchValue)
-        }
+        setSearchValue(searchValue)
+        socket.emit('search_rooms', searchValue)
     }
 
     // Send message
 
     const sendMessage = (message) => {
-        console.log(room)
         if (message && message.trim().length) {
             socket.emit('send_message', {
                 message,
@@ -64,7 +62,7 @@ function App() {
 
     const readMessage = (messageId) => {
         if (messageId) {
-            socket.emit('read_message', messageId)
+            socket.emit('read_message', {messageId, room: userData.room})
         }
     }
 
@@ -75,6 +73,7 @@ function App() {
         setMessages(m => [])
         setRoom('')
         setUserName('')
+        setActiveUsers([])
     }
 
     // Get message
@@ -141,7 +140,7 @@ function App() {
         <div className='wrapper'>
             {!loggedIn ? (
                 <div>
-                    <Rooms rooms={allRooms} connectTo={connectTo}/>
+                    <Rooms rooms={allRooms} connectTo={connectTo} searchRooms={searchRooms} searchValue={searchValue}/>
                     <Login connectTo={connectTo} userName={userName} room={room} onChangeUserName={onChangeUserName}
                            onChangeRoom={onChangeRoom}/>
                 </div>
