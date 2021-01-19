@@ -29,6 +29,8 @@ io = socket(server, {
     }
 })
 
+// disconnect function
+
 let users = new Map()
 let rooms = new Set()
 
@@ -55,9 +57,10 @@ io.on('connection', (socket) => {
             status: 'sent'
         }
         delete msg.room
-
+        console.log(obj.room)
         io.sockets.to(obj.room).emit('get_message', msg)
     })
+
 
     socket.on('read_message', (id) => {
         io.sockets.emit('get_read_message', id)
@@ -68,7 +71,6 @@ io.on('connection', (socket) => {
             if (item.has(socket.id)) {
                 item.delete(socket.id)
                 io.sockets.to(room).emit('set_users', Array.from(item, ([id, value]) => ({id, value})))
-                rooms = rooms.filter(i => i !== room)
             }
         })
         console.log('User disconnected')
