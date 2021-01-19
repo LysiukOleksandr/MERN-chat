@@ -14,7 +14,7 @@ const Dialog = ({messages, userData, readMessage}) => {
         <section className="dialog">
             <div className="container">
                 <div className="dialog__wrapper">
-                    <h1 className="dialog__title">Chat</h1>
+                    <h1 className="dialog__title">{userData && userData.room}</h1>
                     <div className="dialog__content" id="dialogContainer">
                         {messages && messages.length > 0 && messages.map((m, i) => {
                             if (m.status === 'sent' && m.authorId !== userData.id) {

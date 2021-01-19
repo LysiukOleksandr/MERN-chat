@@ -23,16 +23,16 @@ function App() {
 
     // Connect
     const connectTo = (checkedRoom) => {
-        if (userName && userName.trim().length ) {
-            if(checkedRoom){
-                socket.emit('join', {userName, checkedRoom})
-            }else if(room){
+        console.log(checkedRoom)
+        if (userName && userName.trim().length) {
+            if (checkedRoom) {
+                socket.emit('join', {userName, room: checkedRoom})
+            } else if (room) {
                 socket.emit('join', {userName, room})
-            }else{
+            } else {
                 alert('Please, select a room')
             }
-            setRoom('')
-        }else{
+        } else {
             alert('Please, enter username')
         }
     }
@@ -48,13 +48,14 @@ function App() {
     // Send message
 
     const sendMessage = (message) => {
+        console.log(room)
         if (message && message.trim().length) {
             socket.emit('send_message', {
                 message,
                 messageId: `${userData.id}_${Math.floor(Math.random() * 100000000) + Math.random() * 5324}_${userData.value}`,
                 authorId: userData.id,
                 author: userData.value,
-                room
+                room: userData.room
             })
         }
     }
@@ -72,7 +73,8 @@ function App() {
     const onLeave = () => {
         setLoggedIn(false)
         setMessages(m => [])
-
+        setRoom('')
+        setUserName('')
     }
 
     // Get message

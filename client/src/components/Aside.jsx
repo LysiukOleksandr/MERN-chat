@@ -1,6 +1,6 @@
 import React from 'react';
 import {User, UserItem} from "./index";
-
+import socket from '../socket'
 const Aside = ({user, users, onLeave}) => {
     return (
         <aside className="aside">
