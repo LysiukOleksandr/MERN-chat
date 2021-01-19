@@ -57,13 +57,16 @@ io.on('connection', (socket) => {
             status: 'sent'
         }
         delete msg.room
-        console.log(obj.room)
         io.sockets.to(obj.room).emit('get_message', msg)
     })
 
+    socket.on('read_message', ({messageId, room}) => {
+        io.sockets.to(room).emit('get_read_message', messageId)
+    })
 
-    socket.on('read_message', (id) => {
-        io.sockets.emit('get_read_message', id)
+    socket.on('search_rooms', (searchValue) => {
+        const filteredRooms = [...rooms].filter(i => i.startsWith(searchValue))
+        io.sockets.emit('set_rooms', filteredRooms)
     })
 
     socket.on('disconnect', () => {
