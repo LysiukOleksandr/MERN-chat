@@ -22,9 +22,26 @@ function App() {
     }
 
     // Connect
-    const connectTo = () => {
-        if (userName && userName.trim().length && room) {
-            socket.emit('join', {userName, room})
+    const connectTo = (checkedRoom) => {
+        if (userName && userName.trim().length ) {
+            if(checkedRoom){
+                socket.emit('join', {userName, checkedRoom})
+            }else if(room){
+                socket.emit('join', {userName, room})
+            }else{
+                alert('Please, select a room')
+            }
+            setRoom('')
+        }else{
+            alert('Please, enter username')
+        }
+    }
+
+    // Search rooms
+
+    const searchRooms = (searchValue) => {
+        if (searchValue && searchValue.trim().length) {
+            socket.emit('search_rooms', searchValue)
         }
     }
 
@@ -52,7 +69,7 @@ function App() {
 
     // Leave room
 
-    const onLeave = () =>{
+    const onLeave = () => {
         setLoggedIn(false)
         setMessages(m => [])
 
@@ -110,9 +127,6 @@ function App() {
         })
     }, [])
 
-    useEffect(() => {
-        console.log('ALL_ROOMS: ', allRooms)
-    }, [allRooms])
 
     // isLogged
     useEffect(() => {
@@ -125,7 +139,7 @@ function App() {
         <div className='wrapper'>
             {!loggedIn ? (
                 <div>
-                    <Rooms rooms={allRooms}/>
+                    <Rooms rooms={allRooms} connectTo={connectTo}/>
                     <Login connectTo={connectTo} userName={userName} room={room} onChangeUserName={onChangeUserName}
                            onChangeRoom={onChangeRoom}/>
                 </div>

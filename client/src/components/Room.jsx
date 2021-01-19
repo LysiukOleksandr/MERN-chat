@@ -1,8 +1,8 @@
 import React from 'react';
 
-const Room = ({room}) => {
+const Room = ({room, connectTo}) => {
     return (
-        <li>{room}</li>
+        <li onClick={()=> connectTo(room) }>{room}</li>
     );
 };
 
