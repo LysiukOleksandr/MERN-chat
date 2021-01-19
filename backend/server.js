@@ -30,21 +30,21 @@ io = socket(server, {
 })
 
 let users = new Map()
-let rooms = []
+let rooms = new Set()
 
 io.on('connection', (socket) => {
-    io.sockets.emit('set_rooms', rooms)
+    io.sockets.emit('set_rooms', [...rooms])
     socket.on('join', ({userName, room}) => {
         socket.join(room)
 
         const user = {id: socket.id, value: userName, room}
-        room && rooms.push(room)
+        room && rooms.add(room)
 
         !!users.get(room) ? users.get(room).set(socket.id, userName) : users.set(room, new Map([[socket.id, userName]]))
 
         io.sockets.to(socket.id).emit('set_user', user)
         io.sockets.to(room).emit('set_users', Array.from(users.get(room), ([id, value]) => ({id, value})))
-        io.sockets.emit('set_rooms', rooms)
+        io.sockets.emit('set_rooms', [...rooms])
     })
 
     socket.on('send_message', async (obj) => {
