@@ -38,7 +38,7 @@ io.on('connection', (socket) => {
         socket.join(room)
 
         const user = {id: socket.id, value: userName, room}
-        rooms.push(room)
+        room && rooms.push(room)
 
         !!users.get(room) ? users.get(room).set(socket.id, userName) : users.set(room, new Map([[socket.id, userName]]))
 
