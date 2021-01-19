@@ -30,16 +30,21 @@ io = socket(server, {
 })
 
 let users = new Map()
+let rooms = []
 
 io.on('connection', (socket) => {
+    io.sockets.emit('set_rooms', rooms)
     socket.on('join', ({userName, room}) => {
+        socket.join(room)
+
         const user = {id: socket.id, value: userName, room}
+        rooms.push(room)
 
         !!users.get(room) ? users.get(room).set(socket.id, userName) : users.set(room, new Map([[socket.id, userName]]))
 
-        socket.join(room)
         io.sockets.to(socket.id).emit('set_user', user)
         io.sockets.to(room).emit('set_users', Array.from(users.get(room), ([id, value]) => ({id, value})))
+        io.sockets.emit('set_rooms', rooms)
     })
 
     socket.on('send_message', async (obj) => {
@@ -58,18 +63,14 @@ io.on('connection', (socket) => {
         io.sockets.emit('get_read_message', id)
     })
 
-    // new
-
     socket.on('disconnect', () => {
         users.forEach((item, room) => {
-            console.log(item)
             if (item.has(socket.id)) {
                 item.delete(socket.id)
-                io.sockets.to(room).emit('set_users', Array.from(item, ([id, value])=> ({id, value})))
+                io.sockets.to(room).emit('set_users', Array.from(item, ([id, value]) => ({id, value})))
+                rooms = rooms.filter(i => i !== room)
             }
         })
-
-        // io.sockets.emit('set_users', )
         console.log('User disconnected')
     })
 })
