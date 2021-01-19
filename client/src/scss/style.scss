@@ -962,6 +962,31 @@ li {
     }
   }
 
+  &__logout{
+    margin-top: 15px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+   & button{
+      width: 200px;
+      border: none;
+      padding: 10px;
+      outline: none;
+      border-radius: 2px;
+     background: $border;
+     cursor: pointer;
+     transition: 0.3s all ease;
+     &:hover{
+       background: $purple;
+       color: white;
+     }
+     &:active{
+       transform: translateY(4px);
+     }
+
+    }
+  }
+
   &__items {
     margin-top: 30px;
 

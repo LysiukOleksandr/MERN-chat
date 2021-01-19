@@ -9,6 +9,9 @@ const Rooms = () => {
                     <h3>Search room</h3>
                     <input type="text" placeholder='Search room'/>
                 </div>
+                <div className="rooms__logout">
+                    <button>Leave</button>
+                </div>
                 <ul className="rooms__items">
                     <Room/>
                 </ul>
