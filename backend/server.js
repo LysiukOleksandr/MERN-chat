@@ -39,7 +39,7 @@ io.on('connection', (socket) => {
 
         socket.join(room)
         io.sockets.to(socket.id).emit('set_user', user)
-        io.sockets.emit('set_users', Array.from(users.get(room), ([id, value]) => ({id, value})))
+        io.sockets.to(room).emit('set_users', Array.from(users.get(room), ([id, value]) => ({id, value})))
     })
 
     socket.on('send_message', async (obj) => {
@@ -49,6 +49,8 @@ io.on('connection', (socket) => {
             messageId: hashMessageId,
             status: 'sent'
         }
+        delete msg.room
+
         io.sockets.to(obj.room).emit('get_message', msg)
     })
 
@@ -59,10 +61,11 @@ io.on('connection', (socket) => {
     // new
 
     socket.on('disconnect', () => {
-        users.forEach((item) => {
+        users.forEach((item, room) => {
+            console.log(item)
             if (item.has(socket.id)) {
                 item.delete(socket.id)
-                io.sockets.emit('set_users', Array.from(item, ([id, value])=> ({id, value})))
+                io.sockets.to(room).emit('set_users', Array.from(item, ([id, value])=> ({id, value})))
             }
         })
 
