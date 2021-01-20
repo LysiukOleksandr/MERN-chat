@@ -69,6 +69,10 @@ io.on('connection', (socket) => {
         io.sockets.emit('set_rooms', filteredRooms)
     })
 
+    socket.on('send_unread_length', ({messagesLength, room}) => {
+        socket.emit('get_unread_length', messagesLength)
+    })
+
     socket.on('disconnect', () => {
         users.forEach((item, room) => {
             if (item.has(socket.id)) {
