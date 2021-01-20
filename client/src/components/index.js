@@ -7,5 +7,4 @@ export {default as UserItem} from './UserItem'
 export {default as Message} from './Message'
 export {default as Rooms} from './Rooms'
 export {default as Room} from './Room'
-
-
+export {default as Error} from './Error'

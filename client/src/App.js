@@ -1,5 +1,5 @@
 import {useEffect, useState} from 'react'
-import {Aside, Dialog, Login, Rooms, Sender} from "./components";
+import {Aside, Dialog, Error, Login, Rooms, Sender} from "./components";
 import socket from './socket'
 
 function App() {
@@ -13,6 +13,7 @@ function App() {
     const [room, setRoom] = useState('')
     const [allRooms, setAllRooms] = useState([])
     const [searchValue, setSearchValue] = useState('')
+    const [isConnected, setIsConnected] = useState(false)
     // Login
 
     const onChangeUserName = (val) => {
@@ -77,6 +78,23 @@ function App() {
         setActiveUsers([])
     }
 
+    // Connect socket
+
+    useEffect(() => {
+        socket.on('connect', () => {
+            setIsConnected(true)
+        })
+    }, [])
+
+    // Catch CONNECTION REFUSED ERROR
+
+    useEffect(() => {
+        socket.on('connect_error', () => {
+            setIsConnected(false)
+        })
+    }, [])
+
+
     // Send messagesLength
 
     useEffect(() => {
@@ -128,14 +146,15 @@ function App() {
     }, [])
 
     // Current user
+
     useEffect(() => {
         socket.on('set_user', (user) => {
             setUserData(user)
         })
     }, [])
 
-
     // Active users
+
     useEffect(() => {
         socket.on('set_users', (users) => {
             setActiveUsers(users)
@@ -143,6 +162,7 @@ function App() {
     }, [])
 
     // Rooms
+
     useEffect(() => {
         socket.on('set_rooms', (rooms) => {
             setAllRooms(r => [...rooms])
@@ -150,6 +170,7 @@ function App() {
     }, [])
 
     // isLogged
+
     useEffect(() => {
         if (userData) {
             setLoggedIn(true)
@@ -158,22 +179,23 @@ function App() {
 
     return (
         <div className='wrapper'>
-            {!loggedIn ? (
-                <div>
-                    <Rooms rooms={allRooms} connectTo={connectTo} searchRooms={searchRooms} searchValue={searchValue}/>
-                    <Login connectTo={connectTo} userName={userName} room={room} onChangeUserName={onChangeUserName}
-                           onChangeRoom={onChangeRoom}/>
-                </div>
-            ) : (
-                <div>
-                    <Aside user={userData} users={activeUsers} onLeave={onLeave}
-                           unreadMessagesLength={unreadMessagesLength}/>
-                    <main className="main">
-                        <Dialog messages={messages} userData={userData} readMessage={readMessage}/>
-                        <Sender sendMessage={sendMessage}/>
-                    </main>
-                </div>
-            )}
+            <Error/>
+            {/*{!loggedIn ? (*/}
+            {/*    <div>*/}
+            {/*        <Rooms rooms={allRooms} connectTo={connectTo} searchRooms={searchRooms} searchValue={searchValue}/>*/}
+            {/*        <Login connectTo={connectTo} userName={userName} room={room} onChangeUserName={onChangeUserName}*/}
+            {/*               onChangeRoom={onChangeRoom}/>*/}
+            {/*    </div>*/}
+            {/*) : (*/}
+            {/*    <div>*/}
+            {/*        <Aside user={userData} users={activeUsers} onLeave={onLeave}*/}
+            {/*               unreadMessagesLength={unreadMessagesLength}/>*/}
+            {/*        <main className="main">*/}
+            {/*            <Dialog messages={messages} userData={userData} readMessage={readMessage}/>*/}
+            {/*            <Sender sendMessage={sendMessage}/>*/}
+            {/*        </main>*/}
+            {/*    </div>*/}
+            {/*)}*/}
         </div>
     );
 }
