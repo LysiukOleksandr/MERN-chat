@@ -1,5 +1,5 @@
 import {useEffect, useState} from 'react'
-import {Aside, Dialog, Error, Login, Rooms, Sender} from "./components";
+import {Aside, Dialog, Login, Rooms, Sender} from "./components";
 import socket from './socket'
 
 function App() {
@@ -99,7 +99,6 @@ function App() {
 
     useEffect(() => {
         const messagesLength = messages.filter(i => i.status === 'sent' && i.authorId !== userData.id).length
-        console.log(messagesLength)
         if (userData && userData.room) {
             socket.emit('send_unread_length', {messagesLength, room: userData.room})
         }
@@ -179,23 +178,24 @@ function App() {
 
     return (
         <div className='wrapper'>
-            <Error/>
-            {/*{!loggedIn ? (*/}
-            {/*    <div>*/}
-            {/*        <Rooms rooms={allRooms} connectTo={connectTo} searchRooms={searchRooms} searchValue={searchValue}/>*/}
-            {/*        <Login connectTo={connectTo} userName={userName} room={room} onChangeUserName={onChangeUserName}*/}
-            {/*               onChangeRoom={onChangeRoom}/>*/}
-            {/*    </div>*/}
-            {/*) : (*/}
-            {/*    <div>*/}
-            {/*        <Aside user={userData} users={activeUsers} onLeave={onLeave}*/}
-            {/*               unreadMessagesLength={unreadMessagesLength}/>*/}
-            {/*        <main className="main">*/}
-            {/*            <Dialog messages={messages} userData={userData} readMessage={readMessage}/>*/}
-            {/*            <Sender sendMessage={sendMessage}/>*/}
-            {/*        </main>*/}
-            {/*    </div>*/}
-            {/*)}*/}
+            {!loggedIn ? (
+                <div>
+                    <Rooms rooms={allRooms} connectTo={connectTo} searchRooms={searchRooms} searchValue={searchValue} isConnected={isConnected}/>
+                    <Login connectTo={connectTo} userName={userName} room={room} onChangeUserName={onChangeUserName}
+                           onChangeRoom={onChangeRoom} isConnected={isConnected}/>
+                </div>
+            ) : (
+                <div>
+                    <Aside user={userData} users={activeUsers} onLeave={onLeave}
+                           unreadMessagesLength={unreadMessagesLength} isConnected={isConnected}/>
+                    <main className="main">
+                        <Dialog messages={messages} userData={userData} readMessage={readMessage} isConnected={isConnected}/>
+                        <Sender sendMessage={sendMessage} isConnected={isConnected}/>
+                    </main>
+                </div>
+            )}
+
+
         </div>
     );
 }

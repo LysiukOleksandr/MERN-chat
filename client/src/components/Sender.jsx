@@ -1,6 +1,6 @@
 import React, {useState} from 'react';
 
-const Sender = ({sendMessage}) => {
+const Sender = ({sendMessage, isConnected}) => {
 
     const [message, setMessage] = useState('')
 
@@ -22,15 +22,17 @@ const Sender = ({sendMessage}) => {
 
     return (
         <section className='sender'>
-            <div className="container">
-                <div className="sender__wrapper">
-                    <div className="sender__input" onKeyDown={onPressEnter}>
-                        <input id='senderInput' type="text" placeholder='Type a new message' value={message}
-                               onChange={onChangeMessage}/>
+            {isConnected && (
+                <div className="container">
+                    <div className="sender__wrapper">
+                        <div className="sender__input" onKeyDown={onPressEnter}>
+                            <input id='senderInput' type="text" placeholder='Type a new message' value={message}
+                                   onChange={onChangeMessage}/>
+                        </div>
+                        <div className="sender__btn" onClick={onSubmit}>Send</div>
                     </div>
-                    <div className="sender__btn" onClick={onSubmit}>Send</div>
                 </div>
-            </div>
+            )}
         </section>
     )
 }
