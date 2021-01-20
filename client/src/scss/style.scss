@@ -652,6 +652,35 @@ li {
     border-bottom-right-radius: 15px;
   }
 
+  &__logout {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 20px;
+    margin-top: 10px;
+
+    & button {
+      width: 130px;
+      border: none;
+      padding: 10px;
+      outline: none;
+      border-radius: 4px;
+      background: $border;
+      cursor: pointer;
+      transition: 0.3s all ease;
+
+      &:hover {
+        background: $purple;
+        color: white;
+      }
+
+      &:active {
+        transform: translateY(4px);
+      }
+    }
+  }
+
+
   &__username {
     font-weight: 600;
     font-size: 14px;
@@ -662,11 +691,22 @@ li {
   &__bottom {
     background: $bg;
     margin-top: 10px;
-    padding: 24px 20px 0 20px;
+    padding: 10px 20px 0 20px;
     border-top-left-radius: 15px;
     border-top-right-radius: 15px;
     height: 100%;
     overflow-y: auto;
+
+    &-unread {
+      width: 80px;
+      height: 30px;
+      border-radius: 10px;
+      border: 2px solid #ff4500;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin-left: 145px;
+    }
 
     &-title {
       font-size: 18px;
@@ -963,32 +1003,6 @@ li {
     }
   }
 
-  &__logout {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    margin-bottom: 20px;
-
-    & button {
-      width: 130px;
-      border: none;
-      padding: 10px;
-      outline: none;
-      border-radius: 4px;
-      background: $border;
-      cursor: pointer;
-      transition: 0.3s all ease;
-
-      &:hover {
-        background: $purple;
-        color: white;
-      }
-
-      &:active {
-        transform: translateY(4px);
-      }
-    }
-  }
 
   &__items {
     margin-top: 30px;

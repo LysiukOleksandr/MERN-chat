@@ -7,7 +7,8 @@ const Aside = ({user, users, onLeave}) => {
             <User user={user}/>
             <div className="aside__bottom">
                 <div className="aside__bottom-active">
-                    <div className="rooms__logout">
+                    <div className="aside__bottom-unread">10</div>
+                    <div className="aside__logout">
                         <button onClick={onLeave}>Leave</button>
                     </div>
                     <h3 className="aside__bottom-title">Active users</h3>
