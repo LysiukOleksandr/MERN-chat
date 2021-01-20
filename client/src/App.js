@@ -8,6 +8,7 @@ function App() {
     const [userData, setUserData] = useState(null)
     const [activeUsers, setActiveUsers] = useState(null)
     const [messages, setMessages] = useState([])
+    const [unreadMessagesLength, setUnreadMessagesLength] = useState(0)
     const [userName, setUserName] = useState('')
     const [room, setRoom] = useState('')
     const [allRooms, setAllRooms] = useState([])
@@ -76,6 +77,26 @@ function App() {
         setActiveUsers([])
     }
 
+    // Send messagesLength
+
+    useEffect(() => {
+        const messagesLength = messages.filter(i => i.status === 'sent' && i.authorId !== userData.id).length
+        console.log(messagesLength)
+        if (userData && userData.room) {
+            socket.emit('send_unread_length', {messagesLength, room: userData.room})
+        }
+    }, [messages, userData])
+
+    // Set unreadMessagesLength
+
+    useEffect(() => {
+        if (userData && userData.room) {
+            socket.on('get_unread_length', (length) => {
+                setUnreadMessagesLength(l => length)
+            })
+        }
+    }, [userData])
+
     // Get message
 
     useEffect(() => {
@@ -128,7 +149,6 @@ function App() {
         })
     }, [])
 
-
     // isLogged
     useEffect(() => {
         if (userData) {
@@ -146,7 +166,8 @@ function App() {
                 </div>
             ) : (
                 <div>
-                    <Aside user={userData} users={activeUsers} onLeave={onLeave}/>
+                    <Aside user={userData} users={activeUsers} onLeave={onLeave}
+                           unreadMessagesLength={unreadMessagesLength}/>
                     <main className="main">
                         <Dialog messages={messages} userData={userData} readMessage={readMessage}/>
                         <Sender sendMessage={sendMessage}/>

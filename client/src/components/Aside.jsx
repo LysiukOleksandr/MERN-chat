@@ -1,13 +1,14 @@
 import React from 'react';
 import {User, UserItem} from "./index";
 
-const Aside = ({user, users, onLeave}) => {
+const Aside = ({user, users, onLeave, unreadMessagesLength}) => {
+
     return (
         <aside className="aside">
             <User user={user}/>
             <div className="aside__bottom">
                 <div className="aside__bottom-active">
-                    <div className="aside__bottom-unread">10</div>
+                    <div className="aside__bottom-unread">{unreadMessagesLength}</div>
                     <div className="aside__logout">
                         <button onClick={onLeave}>Leave</button>
                     </div>
