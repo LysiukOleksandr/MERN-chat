@@ -5,10 +5,9 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="c003bd10-6610-41be-82fa-46d20bda7c23" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/client/.eslintcache" beforeDir="false" afterPath="$PROJECT_DIR$/client/.eslintcache" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/components/Dialog.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/Dialog.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/components/Message.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/Message.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/components/Sender.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/Sender.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/components/Aside.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/Aside.jsx" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -28,13 +27,15 @@
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/backend" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/client/src/assets" />
     <property name="nodejs_package_manager_path" value="npm" />
     <property name="settings.editor.selected.configurable" value="preferences.pluginManager" />
+    <property name="ts.external.directory.path" value="C:\Program Files\JetBrains\WebStorm 2020.3\plugins\JavaScriptLanguage\jsLanguageServicesImpl\external" />
     <property name="vue.rearranger.settings.migration" value="true" />
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Users\olysi\OneDrive\Рабочий стол\Work\MERN chat\chat\client\src\assets" />
       <recent name="C:\Users\olysi\OneDrive\Рабочий стол\Work\MERN chat\chat\backend" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
@@ -59,7 +60,16 @@
       <workItem from="1610456507056" duration="13056000" />
       <workItem from="1610528071221" duration="26423000" />
       <workItem from="1610565782910" duration="402000" />
-      <workItem from="1610569641159" duration="1809000" />
+      <workItem from="1610569641159" duration="3648000" />
+      <workItem from="1610614902302" duration="35408000" />
+      <workItem from="1610702236946" duration="49426000" />
+      <workItem from="1610962848429" duration="12418000" />
+      <workItem from="1610985236288" duration="5507000" />
+      <workItem from="1610990829072" duration="599000" />
+      <workItem from="1611001568348" duration="4000" />
+      <workItem from="1611048354246" duration="19724000" />
+      <workItem from="1611132327162" duration="9605000" />
+      <workItem from="1611146377267" duration="6063000" />
     </task>
     <servers />
   </component>
