@@ -64,9 +64,7 @@ const Message = ({message, authorId, author, status, userData, forwardedRef}) =>
                                 <g>
                                 </g>
                             </svg>}
-
                     </div>
-                    {/*<p className="dialog__item-message-time">15:03</p>*/}
                 </div>
             </div>
         </div>

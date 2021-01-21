@@ -873,7 +873,6 @@ li {
   &__input {
     padding: 11px 22px;
     width: 100%;
-
     input {
       border: none;
       outline: none;
@@ -905,15 +904,9 @@ li {
       background: url("../assets/Vector.png");
       transition: 0.3s all ease;
     }
-
-    &:hover {
-      opacity: 1;
-
-      &:after {
-        transform: translateX(5px);
-        transition: 0.3s all ease;
-      }
-    }
+   &--activated{
+     opacity: 1;
+   }
   }
 }
 

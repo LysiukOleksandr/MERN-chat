@@ -1,4 +1,5 @@
 import React, {useState} from 'react';
+import classNames from 'classnames'
 
 const Sender = ({sendMessage, isConnected}) => {
 
@@ -29,7 +30,10 @@ const Sender = ({sendMessage, isConnected}) => {
                             <input id='senderInput' type="text" placeholder='Type a new message' value={message}
                                    onChange={onChangeMessage}/>
                         </div>
-                        <div className="sender__btn" onClick={onSubmit}>Send</div>
+                        <div className={classNames('sender__btn', {
+                            "sender__btn--activated": message.length >= 1
+                        })} onClick={onSubmit}>Send
+                        </div>
                     </div>
                 </div>
             )}
