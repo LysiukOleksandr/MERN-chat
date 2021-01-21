@@ -60,9 +60,14 @@ io.on('connection', (socket) => {
         io.sockets.to(obj.room).emit('get_message', msg)
     })
 
-    socket.on('read_message', ({messageId, room}) => {
-        io.sockets.to(room).emit('get_read_message', messageId)
+    // socket.on('read_message', ({messageId, room}) => {
+    //     io.sockets.to(room).emit('get_read_message', messageId)
+    // })
+
+    socket.on('read_message', ({messageId, authorId, room}) => {
+        io.sockets.to(socket.id).to(authorId).emit('get_read_message', messageId)
     })
+
 
     socket.on('search_rooms', (searchValue) => {
         const filteredRooms = [...rooms].filter(i => i.startsWith(searchValue))

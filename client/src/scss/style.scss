@@ -1022,16 +1022,17 @@ li {
   }
 }
 
-
-.error{
+.error {
   padding-top: 100px;
   display: flex;
   flex-direction: column;
   align-items: center;
-  &__img{
+
+  &__img {
 
   }
-  &__title{
+
+  &__title {
     margin-top: 20px;
     font-size: 20px;
   }

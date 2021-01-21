@@ -62,9 +62,15 @@ function App() {
 
     // Read message
 
-    const readMessage = (messageId) => {
-        if (messageId) {
-            socket.emit('read_message', {messageId, room: userData.room})
+    // const readMessage = (messageId) => {
+    //     if (messageId) {
+    //         socket.emit('read_message', {messageId, room: userData.room})
+    //     }
+    // }
+
+    const readMessage = (messageId,authorId) =>{
+        if(messageId && authorId){
+            socket.emit('read_message', {messageId, authorId, room: userData.room})
         }
     }
 

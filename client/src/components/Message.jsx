@@ -1,7 +1,7 @@
 import React from 'react';
 
 
-const Message = ({message, messageId, authorId, author, status, userData, forwardedRef}) => {
+const Message = ({message, authorId, author, status, userData, forwardedRef}) => {
 
     return (
         <div className={`dialog__item viewport-block ${authorId === userData.id ? 'dialog__item-my' : ''}`}
@@ -66,7 +66,7 @@ const Message = ({message, messageId, authorId, author, status, userData, forwar
                             </svg>}
 
                     </div>
-                    <p className="dialog__item-message-time">15:03</p>
+                    {/*<p className="dialog__item-message-time">15:03</p>*/}
                 </div>
             </div>
         </div>
