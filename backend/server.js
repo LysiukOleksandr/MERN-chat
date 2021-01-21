@@ -39,9 +39,11 @@ io.on('connection', (socket) => {
     io.sockets.emit('set_rooms', [...rooms])
     socket.on('join', ({userName, room}) => {
 
-        if (!rooms.has(room)) {
+        let candidateRoom = Array.from(rooms).find(i => i.toLowerCase() === room.toLowerCase())
+        if (!candidateRoom) {
             messages.set(room, new Map())
-            console.log(!rooms.has(room))
+        } else {
+            room = candidateRoom
         }
 
         socket.join(room)
@@ -70,7 +72,7 @@ io.on('connection', (socket) => {
         io.sockets.to(obj.room).emit('get_message', msg)
     })
 
-    socket.on('read_message', ({messageId, authorId, room}) => {
+    socket.on('read_message', ({messageId, authorId}) => {
         io.sockets.to(socket.id).to(authorId).emit('get_read_message', messageId)
     })
 
