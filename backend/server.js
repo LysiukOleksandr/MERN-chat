@@ -4,6 +4,7 @@ const socket = require('socket.io')
 const bcrypt = require('bcrypt')
 const mongoose = require('mongoose')
 const cryptoRandomString = require('crypto-random-string');
+const Message = require('./models/Message')
 const app = express()
 
 
