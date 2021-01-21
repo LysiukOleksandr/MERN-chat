@@ -68,7 +68,6 @@ io.on('connection', (socket) => {
         }
         delete msg.room
         messages.get(obj.room).set(hashMessageId, msg)
-        console.log(messages)
         io.sockets.to(obj.room).emit('get_message', msg)
     })
 
