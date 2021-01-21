@@ -33,20 +33,28 @@ io = socket(server, {
 
 let users = new Map()
 let rooms = new Set()
+let messages = new Map()
 
 io.on('connection', (socket) => {
     io.sockets.emit('set_rooms', [...rooms])
     socket.on('join', ({userName, room}) => {
+
+        if (!rooms.has(room)) {
+            messages.set(room, new Map())
+            console.log(!rooms.has(room))
+        }
+
         socket.join(room)
 
         const user = {id: socket.id, value: userName, room}
         room && rooms.add(room)
 
-        !!users.get(room) ? users.get(room).set(socket.id, userName) : users.set(room, new Map([[socket.id, userName]]))
 
+        !!users.get(room) ? users.get(room).set(socket.id, userName) : users.set(room, new Map([[socket.id, userName]]))
         io.sockets.to(socket.id).emit('set_user', user)
         io.sockets.to(room).emit('set_users', Array.from(users.get(room), ([id, value]) => ({id, value})))
         io.sockets.emit('set_rooms', [...rooms])
+        io.sockets.to(socket.id).emit('get_messages_history', Array.from(messages.get(room).values()))
     })
 
     socket.on('send_message', async (obj) => {
@@ -57,12 +65,10 @@ io.on('connection', (socket) => {
             status: 'sent'
         }
         delete msg.room
+        messages.get(obj.room).set(hashMessageId, msg)
+        console.log(messages)
         io.sockets.to(obj.room).emit('get_message', msg)
     })
-
-    // socket.on('read_message', ({messageId, room}) => {
-    //     io.sockets.to(room).emit('get_read_message', messageId)
-    // })
 
     socket.on('read_message', ({messageId, authorId, room}) => {
         io.sockets.to(socket.id).to(authorId).emit('get_read_message', messageId)
