@@ -10,9 +10,14 @@ const userSchema = new Schema({
         required: true,
         unique: true
     },
-    isAdmin:{
-        type:Boolean,
+    isAdmin: {
+        type: Boolean,
         default: false
+    },
+    room: {
+        type: String,
+        required: true,
+        unique: true
     }
 
 })

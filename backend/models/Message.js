@@ -20,8 +20,7 @@ const messageSchema = new Schema({
     },
     room: {
         type: String,
-        required: true,
-        unique: true
+        required: true
     }
 })
 

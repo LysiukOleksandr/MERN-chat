@@ -14,9 +14,10 @@ const Rooms = ({rooms, searchValue, connectTo, searchRooms, onCreateRoom}) => {
                 <AddRoom onCreateRoom={onCreateRoom}/>
 
                 <ul className="rooms__items">
-                    {rooms && rooms.length > 0 && rooms.map((room) => (
-                        <Room key={room} room={room} connectTo={connectTo}/>
-                    ))}
+                    {/*{rooms && rooms.length > 0 && rooms.map((room) => (*/}
+                    {/*    <Room key={room} room={room} connectTo={connectTo}/>*/}
+                    {/*))}*/}
+                    <Room room={'1'} connectTo={connectTo}/>
                 </ul>
             </aside>
         </div>
