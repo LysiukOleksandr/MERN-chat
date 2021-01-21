@@ -39,24 +39,34 @@ io.on('connection', (socket) => {
     io.sockets.emit('set_rooms', [...rooms])
     socket.on('join', ({userName, room}) => {
 
-        let candidateRoom = Array.from(rooms).find(i => i.toLowerCase() === room.toLowerCase())
-        if (!candidateRoom) {
-            messages.set(room, new Map())
-        } else {
-            room = candidateRoom
-        }
+        // let candidateRoom = Array.from(rooms).find(i => i.toLowerCase() === room.toLowerCase())
+        // if (!candidateRoom) {
+        // messages.set(room, new Map())
+        // } else {
+        //     room = candidateRoom
+        // }
 
         socket.join(room)
-
         const user = {id: socket.id, value: userName, room}
-        room && rooms.add(room)
-
 
         !!users.get(room) ? users.get(room).set(socket.id, userName) : users.set(room, new Map([[socket.id, userName]]))
         io.sockets.to(socket.id).emit('set_user', user)
         io.sockets.to(room).emit('set_users', Array.from(users.get(room), ([id, value]) => ({id, value})))
         io.sockets.emit('set_rooms', [...rooms])
         io.sockets.to(socket.id).emit('get_messages_history', Array.from(messages.get(room).values()))
+    })
+
+
+    socket.on('create__room', ({room, userName}) => {
+        if (userName === 'admin') {
+            let candidateRoom = Array.from(rooms).find(i => i.toLowerCase() === room.toLowerCase())
+            if (!candidateRoom) {
+                rooms.add(room)
+                messages.set(room, new Map())
+                io.sockets.emit('set_rooms', [...rooms])
+            }
+        }
+
     })
 
     socket.on('send_message', async (obj) => {
@@ -74,7 +84,6 @@ io.on('connection', (socket) => {
     socket.on('read_message', ({messageId, authorId}) => {
         io.sockets.to(socket.id).to(authorId).emit('get_read_message', messageId)
     })
-
 
     socket.on('search_rooms', (searchValue) => {
         const filteredRooms = [...rooms].filter(i => i.startsWith(searchValue))

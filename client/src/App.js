@@ -10,7 +10,6 @@ function App() {
     const [messages, setMessages] = useState([])
     const [unreadMessagesLength, setUnreadMessagesLength] = useState(0)
     const [userName, setUserName] = useState('')
-    const [room, setRoom] = useState('')
     const [allRooms, setAllRooms] = useState([])
     const [searchValue, setSearchValue] = useState('')
     const [isConnected, setIsConnected] = useState(false)
@@ -20,19 +19,20 @@ function App() {
         setUserName(val)
     }
 
-    const onChangeRoom = (val) => {
-        setRoom(val)
+
+    // Create Room
+
+    const onCreateRoom = (userName, room) =>{
+       if(userName && room){
+           socket.emit('create__room', {userName, room})
+       }
     }
 
     // Connect
-    const connectTo = (checkedRoom) => {
+    const connectTo = (room) => {
         if (userName && userName.trim().length) {
-            if (checkedRoom) {
-                socket.emit('join', {userName, room: checkedRoom})
-            } else if (room) {
+            if (room) {
                 socket.emit('join', {userName, room})
-            } else {
-                alert('Please, select a room')
             }
         } else {
             alert('Please, enter username')
@@ -62,8 +62,8 @@ function App() {
 
     // Read message
 
-    const readMessage = (messageId,authorId) =>{
-        if(messageId && authorId){
+    const readMessage = (messageId, authorId) => {
+        if (messageId && authorId) {
             socket.emit('read_message', {messageId, authorId, room: userData.room})
         }
     }
@@ -73,7 +73,6 @@ function App() {
     const onLeave = () => {
         setLoggedIn(false)
         setMessages(m => [])
-        setRoom('')
         setUserName('')
         setActiveUsers([])
     }
@@ -127,13 +126,13 @@ function App() {
         })
     }, [])
 
-    useEffect(()=>{
-        if(userData && userData.room && messages && messages.length === 0){
-            socket.on('get_messages_history', (msgs)=>{
-                setMessages(m=> [...msgs])
+    useEffect(() => {
+        if (userData && userData.room && messages && messages.length === 0) {
+            socket.on('get_messages_history', (msgs) => {
+                setMessages(m => [...msgs])
             })
         }
-    },[messages, userData])
+    }, [messages, userData])
 
     // Get read message
 
@@ -188,16 +187,18 @@ function App() {
         <div className='wrapper'>
             {!loggedIn ? (
                 <div>
-                    <Rooms rooms={allRooms} connectTo={connectTo} searchRooms={searchRooms} searchValue={searchValue} isConnected={isConnected}/>
-                    <Login connectTo={connectTo} userName={userName} room={room} onChangeUserName={onChangeUserName}
-                           onChangeRoom={onChangeRoom} isConnected={isConnected}/>
+                    <Rooms rooms={allRooms} connectTo={connectTo} searchRooms={searchRooms} searchValue={searchValue}
+                           isConnected={isConnected} onCreateRoom={onCreateRoom}/>
+                    <Login connectTo={connectTo} userName={userName} onChangeUserName={onChangeUserName}
+                           isConnected={isConnected}/>
                 </div>
             ) : (
                 <div>
                     <Aside user={userData} users={activeUsers} onLeave={onLeave}
                            unreadMessagesLength={unreadMessagesLength} isConnected={isConnected}/>
                     <main className="main">
-                        <Dialog messages={messages} userData={userData} readMessage={readMessage} isConnected={isConnected}/>
+                        <Dialog messages={messages} userData={userData} readMessage={readMessage}
+                                isConnected={isConnected}/>
                         <Sender sendMessage={sendMessage} isConnected={isConnected}/>
                     </main>
                 </div>

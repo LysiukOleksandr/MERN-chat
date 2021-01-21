@@ -873,6 +873,7 @@ li {
   &__input {
     padding: 11px 22px;
     width: 100%;
+
     input {
       border: none;
       outline: none;
@@ -904,9 +905,10 @@ li {
       background: url("../assets/Vector.png");
       transition: 0.3s all ease;
     }
-   &--activated{
-     opacity: 1;
-   }
+
+    &--activated {
+      opacity: 1;
+    }
   }
 }
 
@@ -921,7 +923,7 @@ li {
 
   &__content {
     width: 400px;
-    height: 300px;
+    height: 200px;
     background-color: $bg;
     border-radius: 20px;
     display: flex;
@@ -1021,12 +1023,45 @@ li {
   flex-direction: column;
   align-items: center;
 
-  &__img {
-
-  }
-
   &__title {
     margin-top: 20px;
     font-size: 20px;
+  }
+}
+
+.add-room {
+  margin-top: 20px;
+  padding: 15px;
+
+  &__title {
+    text-align: center;
+    color: $text;
+  }
+
+  &__input {
+    width: 200px;
+    padding: 10px;
+    border: none;
+    border-radius: 10px;
+    outline: none;
+  }
+
+  &__btn {
+    width: 100px;
+    background: $border;
+    border: none;
+    outline: none;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 10px;
+    border-radius: 5px;
+    margin: 0 auto;
+    cursor: pointer;
+  transition: 0.3s all ease;
+    &:hover {
+      background: $purple;
+      color: #fff;
+    }
   }
 }
