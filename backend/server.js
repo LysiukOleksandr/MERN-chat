@@ -2,6 +2,7 @@ const express = require('express')
 const cors = require('cors')
 const socket = require('socket.io')
 const bcrypt = require('bcrypt')
+const mongoose = require('mongoose')
 const cryptoRandomString = require('crypto-random-string');
 const app = express()
 
@@ -13,9 +14,21 @@ let allowCrossDomain = function (req, res, next) {
     next();
 }
 
+require('dotenv').config()
 app.use(cors())
 app.use(allowCrossDomain)
 app.use(express.json())
+
+mongoose.connect(process.env.MONGODB, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+    useFindAndModify: false,
+    useCreateIndex: true
+}).then(() => {
+    console.log('MongoDB connected')
+}).catch((err) => {
+    console.log(err)
+})
 
 
 const server = app.listen('8000', () => {
@@ -38,13 +51,6 @@ let messages = new Map()
 io.on('connection', (socket) => {
     io.sockets.emit('set_rooms', [...rooms])
     socket.on('join', ({userName, room}) => {
-
-        // let candidateRoom = Array.from(rooms).find(i => i.toLowerCase() === room.toLowerCase())
-        // if (!candidateRoom) {
-        // messages.set(room, new Map())
-        // } else {
-        //     room = candidateRoom
-        // }
 
         socket.join(room)
         const user = {id: socket.id, value: userName, room}
