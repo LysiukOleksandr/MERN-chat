@@ -6,14 +6,7 @@
   <component name="ChangeListManager">
     <list default="true" id="c003bd10-6610-41be-82fa-46d20bda7c23" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/models/Message.js" beforeDir="false" afterPath="$PROJECT_DIR$/backend/models/Message.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/models/User.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/server.js" beforeDir="false" afterPath="$PROJECT_DIR$/backend/server.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/.eslintcache" beforeDir="false" afterPath="$PROJECT_DIR$/client/.eslintcache" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/App.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/App.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/components/Dialog.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/Dialog.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/components/Rooms.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/Rooms.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/scss/style.scss" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/scss/style.scss" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/backend/.gitignore" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -82,7 +75,8 @@
       <workItem from="1611243673767" duration="4943000" />
       <workItem from="1611248775709" duration="232000" />
       <workItem from="1611305424077" duration="15285000" />
-      <workItem from="1611327677635" duration="3997000" />
+      <workItem from="1611327677635" duration="4152000" />
+      <workItem from="1611331911064" duration="32000" />
     </task>
     <servers />
   </component>
