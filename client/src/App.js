@@ -19,7 +19,6 @@ function App() {
         setUserName(val)
     }
 
-
     // Create Room
 
     const onCreateRoom = (userName, room) =>{
@@ -52,7 +51,6 @@ function App() {
         if (message && message.trim().length) {
             socket.emit('send_message', {
                 message,
-                messageId: `${userData.id}_${Math.floor(Math.random() * 100000000) + Math.random() * 5324}_${userData.value}`,
                 authorId: userData.id,
                 author: userData.value,
                 room: userData.room
@@ -62,9 +60,9 @@ function App() {
 
     // Read message
 
-    const readMessage = (messageId, authorId) => {
-        if (messageId && authorId) {
-            socket.emit('read_message', {messageId, authorId, room: userData.room})
+    const readMessage = (id, authorId) => {
+        if (id && authorId) {
+            socket.emit('read_message', {id, authorId, room: userData.room})
         }
     }
 
@@ -92,7 +90,6 @@ function App() {
             setIsConnected(false)
         })
     }, [])
-
 
     // Send messagesLength
 
@@ -122,7 +119,6 @@ function App() {
                     return [...m, message]
                 }
             })
-
         })
     }, [])
 
@@ -139,7 +135,7 @@ function App() {
     useEffect(() => {
         socket.on('get_read_message', (msgId) => {
             setMessages((m) => {
-                const indx = m.findIndex(i => i.messageId === msgId)
+                const indx = m.findIndex(i => i.id === msgId)
                 if (indx !== -1) {
                     let msgs = [...m]
                     msgs[indx].status = 'read'

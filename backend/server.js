@@ -1,11 +1,8 @@
 const express = require('express')
 const cors = require('cors')
 const socket = require('socket.io')
-const bcrypt = require('bcrypt')
 const mongoose = require('mongoose')
-const cryptoRandomString = require('crypto-random-string');
 const Message = require('./models/Message')
-const User = require('./models/User')
 const Room = require('./models/Room')
 
 const app = express()
@@ -22,7 +19,9 @@ app.use(cors())
 app.use(allowCrossDomain)
 app.use(express.json())
 
-mongoose.connect(process.env.MONGODB, {
+const mongodb = 'mongodb+srv://sasha:gqOLzIkZCekbcSjJ@chat.g5lzu.mongodb.net/Chat?retryWrites=true&w=majority'
+
+mongoose.connect(process.env.MONGODB || mongodb, {
     useNewUrlParser: true,
     useUnifiedTopology: true,
     useFindAndModify: false,
@@ -46,95 +45,99 @@ io = socket(server, {
 
 // disconnect function
 
-// let users = new Map()
-// let rooms = new Set()
-// let messages = new Map()
+let users = new Map()
+let allRooms = new Set()
+let messages = new Map()
 
-io.on('connection', (socket) => {
-    // io.sockets.emit('set_rooms', [...rooms])
-    socket.on('join', async({userName, room}) => {
+io.on('connection', async (socket) => {
+
+    let rooms = await Room.find().select('room')
+    rooms = rooms.map(i => ({id: i.id, room: i.room}))
+
+    allRooms = rooms;
+
+    io.sockets.emit('set_rooms', rooms)
+
+    socket.on('join', async ({userName, room}) => {
 
         const candidate = await Room.findOne({room}).select('room')
+        if (candidate) {
 
-        if(candidate){
-            const userCandidate = await User.findOne({userName})
-            if(!userCandidate){
-                const user = new User({
-                    userName,
-                    userId: socket.id,
-                    isAdmin:false,
-                    room
-                })
+            socket.join(room)
+            messages.set(room, new Map())
+            const user = {id: socket.id, value: userName, room}
+            users && users.get(room) ? users.get(room).set(socket.id, userName) : users.set(room, new Map([[socket.id, userName]]))
 
-                await user.save()
-            }
+            io.sockets.to(socket.id).emit('set_user', user)
+            io.sockets.to(room).emit('set_users', Array.from(users.get(room), ([id, value]) => ({id, value})))
+
+            let messagesHistory = await Message.find({room}).exec()
+            messagesHistory = messagesHistory.map(i => ({
+                id: i._id,
+                message: i.message,
+                authorId: i.authorId,
+                author: i.author,
+                status: i.status,
+            }))
+
+            io.sockets.to(socket.id).emit('get_messages_history', messagesHistory && messagesHistory)
         }
-
-        const user = await User.findOne({userName})
-
-        console.log(user)
-
-        //     const user = {id: socket.id, value: userName, room}
-        //
-        //     !!users.get(room) ? users.get(room).set(socket.id, userName) : users.set(room, new Map([[socket.id, userName]]))
-        //     io.sockets.to(socket.id).emit('set_user', user)
-        //     io.sockets.to(room).emit('set_users', Array.from(users.get(room), ([id, value]) => ({id, value})))
-        //     io.sockets.emit('set_rooms', [...rooms])
-        //     io.sockets.to(socket.id).emit('get_messages_history', Array.from(messages.get(room).values()))
     })
 
 
-    socket.on('create__room', async({room, userName}) => {
+    socket.on('create__room', async ({room, userName}) => {
 
-        const newRoom = new Room({
-            room
-        })
+        const isRoomExist = await Room.find({room: {$regex: new RegExp('^' + room.replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&') + '$', 'i')}},);
 
-        await newRoom.save()
+        if (isRoomExist && isRoomExist.length === 0) {
+            if (userName === 'admin') {
+                const newRoom = new Room({
+                    room
+                })
 
-        // if (userName === 'admin') {
-        //     let candidateRoom = Array.from(rooms).find(i => i.toLowerCase() === room.toLowerCase())
-        //     if (!candidateRoom) {
-        //         rooms.add(room)
-        //         messages.set(room, new Map())
-        //         io.sockets.emit('set_rooms', [...rooms])
-        //     }
-        // }
+                await newRoom.save()
+            }
+        }
+
+        const rooms = await Room.find().select('room')
+        io.sockets.emit('set_rooms', rooms)
 
     })
 
     socket.on('send_message', async (obj) => {
-        // const hashMessageId = await bcrypt.hash(obj.messageId, 8)
-        // const msg = {
-        //     ...obj,
-        //     messageId: hashMessageId,
-        //     status: 'sent'
-        // }
-        // delete msg.room
-        // messages.get(obj.room).set(hashMessageId, msg)
-        // io.sockets.to(obj.room).emit('get_message', msg)
+        let msg = await Message.create({...obj})
+
+        const newMsg = {...msg._doc}
+
+        newMsg.id = String(newMsg._id)
+        delete newMsg._id
+
+        messages.get(obj.room).set(msg._id, newMsg)
+        io.sockets.to(obj.room).emit('get_message', newMsg)
     })
 
-    socket.on('read_message', ({messageId, authorId}) => {
-        // io.sockets.to(socket.id).to(authorId).emit('get_read_message', messageId)
+    socket.on('read_message', async ({id, authorId}) => {
+        await Message.findOneAndUpdate({_id: id}, {status: 'read'})
+
+        io.sockets.to(socket.id).to(authorId).emit('get_read_message', id)
     })
 
     socket.on('search_rooms', (searchValue) => {
-        // const filteredRooms = [...rooms].filter(i => i.startsWith(searchValue))
-        // io.sockets.emit('set_rooms', filteredRooms)
+        const filteredRooms = allRooms && [...allRooms].filter(i => i.room.startsWith(searchValue))
+        io.sockets.emit('set_rooms', filteredRooms)
     })
 
     socket.on('send_unread_length', ({messagesLength}) => {
-        // socket.emit('get_unread_length', messagesLength)
+        socket.emit('get_unread_length', messagesLength)
     })
 
     socket.on('disconnect', () => {
-        // users.forEach((item, room) => {
-        //     if (item.has(socket.id)) {
-        //         item.delete(socket.id)
-        //         io.sockets.to(room).emit('set_users', Array.from(item, ([id, value]) => ({id, value})))
-        //     }
-        // })
+        users.forEach((item, room) => {
+            if (item.has(socket.id)) {
+                item.delete(socket.id)
+                io.sockets.to(room).emit('set_users', Array.from(item, ([id, value]) => ({id, value})))
+            }
+        })
         console.log('User disconnected')
     })
 })

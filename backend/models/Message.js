@@ -1,26 +1,25 @@
 const {Schema, model} = require('mongoose')
 
 const messageSchema = new Schema({
-    author:{
+    author: {
         type: String,
-        required:true
+        required: true
     },
-    authorId:{
+    authorId: {
         type: String,
-        required:true
+        required: true
     },
-     message:{
+    message: {
         type: String,
-        required:true
-    },
-    messageId:{
-        type:String,
-        required:true,
-        unique:true
+        required: true
     },
     room: {
         type: String,
         required: true
+    },
+    status: {
+        type: String,
+        default: 'sent'
     }
 })
 

@@ -6,8 +6,8 @@ const Dialog = ({messages, userData, readMessage, isConnected}) => {
 
     const ViewportBlock = handleViewport(Message);
 
-    const onReadMessage = (messageId, authorId) => {
-        readMessage(messageId, authorId)
+    const onReadMessage = (id, authorId) => {
+        readMessage(id, authorId)
     }
 
     return (
@@ -19,11 +19,11 @@ const Dialog = ({messages, userData, readMessage, isConnected}) => {
                         <div className="dialog__content" id="dialogContainer">
                             {messages && messages.length > 0 && messages.map((m, i) => {
                                 if (m.status === 'sent' && m.authorId !== userData.id) {
-                                    return (<ViewportBlock onEnterViewport={() => onReadMessage(m.messageId, m.authorId)}
+                                    return (<ViewportBlock onEnterViewport={() => onReadMessage(m.id, m.authorId)}
                                                            userData={userData} {...m}
-                                                           key={m.messageId}/>)
+                                                           key={m.id}/>)
                                 } else {
-                                    return (<ViewportBlock userData={userData} {...m} key={`${m.messageId}_${i}`}/>)
+                                    return (<ViewportBlock userData={userData} {...m} key={`${m.id}_${i}`}/>)
                                 }
                             })}
                         </div>
