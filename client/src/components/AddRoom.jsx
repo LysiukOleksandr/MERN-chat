@@ -28,10 +28,10 @@ const AddRoom = ({onCreateRoom}) => {
             <h3 className="add-room__title">Add room</h3>
             <div className="add-room__container">
                 <div className="add-room__input">
-                    <input type="text" className="add-room__input" placeholder='Enter your username' onChange={onChangeName}/>
+                    <input type="text" className="add-room__input" placeholder='Username' onChange={onChangeName}/>
                 </div>
                 <div className="add-room__input">
-                    <input type="text" className="add-room__input" placeholder='Enter room' onChange={onChangeRoom}/>
+                    <input type="text" className="add-room__input" placeholder='Room' onChange={onChangeRoom}/>
                 </div>
                     <button className='add-room__btn' onClick={onSubmit}>Add</button>
             </div>

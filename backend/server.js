@@ -123,7 +123,7 @@ io.on('connection', async (socket) => {
 
     socket.on('search_rooms', (searchValue) => {
         const filteredRooms = allRooms && [...allRooms].filter(i => i.room.startsWith(searchValue))
-        io.sockets.emit('set_rooms', filteredRooms)
+        io.sockets.to(socket.id).emit('set_rooms', filteredRooms)
     })
 
     socket.on('send_unread_length', ({messagesLength}) => {

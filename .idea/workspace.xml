@@ -7,6 +7,8 @@
     <list default="true" id="c003bd10-6610-41be-82fa-46d20bda7c23" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/backend/server.js" beforeDir="false" afterPath="$PROJECT_DIR$/backend/server.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/.eslintcache" beforeDir="false" afterPath="$PROJECT_DIR$/client/.eslintcache" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/components/AddRoom.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/AddRoom.jsx" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -77,7 +79,7 @@
       <workItem from="1611305424077" duration="15285000" />
       <workItem from="1611327677635" duration="4152000" />
       <workItem from="1611331911064" duration="85000" />
-      <workItem from="1611334994919" duration="26000" />
+      <workItem from="1611334994919" duration="192000" />
     </task>
     <servers />
   </component>
