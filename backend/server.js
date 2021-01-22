@@ -19,9 +19,8 @@ app.use(cors())
 app.use(allowCrossDomain)
 app.use(express.json())
 
-const mongodb = 'mongodb+srv://sasha:gqOLzIkZCekbcSjJ@chat.g5lzu.mongodb.net/Chat?retryWrites=true&w=majority'
 
-mongoose.connect(process.env.MONGODB || mongodb, {
+mongoose.connect(process.env.MONGODB, {
     useNewUrlParser: true,
     useUnifiedTopology: true,
     useFindAndModify: false,
